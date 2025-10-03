@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pawlloween - Royal Poms</title>
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Creepster&family=Inter:wght@400;600;800&display=swap');
+
+        /* Estilos personalizados para la tipografía de Halloween */
+        .font-halloween {
+            font-family: 'Creepster', cursive;
+            letter-spacing: 2px;
+            text-shadow: 4px 4px 0px rgba(0, 0, 0, 0.5), 0 0 10px rgba(255, 165, 0, 0.8);
+        }
+
+        /* Estilo para el fondo oscuro */
+        body {
+            background-color: #000;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Estilo para el contenedor principal con el fondo temático de las imágenes */
+        .hero-bg {
+            /* Usamos un placeholder oscuro y temático como sustituto de las imágenes originales */
+            background-image: url('https://placehold.co/1200x800/1a1a1a/000000?text=Fondo+oscuro+tem%C3%A1tico+de+Halloween'); 
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        /* Capa de oscuridad sobre el fondo para mejorar la legibilidad */
+        .hero-bg::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.75); /* Oscurecer más la imagen */
+            z-index: 1;
+        }
+
+        /* Asegurar que el contenido esté sobre la capa oscura */
+        .content-container {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Animación sencilla para el botón CTA */
+        .cta-button {
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            box-shadow: 0 0 20px #ff7b00, 0 0 40px #ff4500;
+            transform: scale(1.02);
+        }
+
+        /* Estilo para iconos con brillo */
+        .icon-glow {
+            filter: drop-shadow(0 0 5px #ff7b00);
+        }
+        
+        /* Estilos para las tarjetas de disfraces (Miniatura de selección) */
+        .costume-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 3px solid transparent;
+            /* Asegurar el tamaño fijo para el scroll horizontal */
+            width: 100px;
+            height: 100px;
+            flex-shrink: 0;
+        }
+        .costume-card:hover {
+            border-color: #ff8c00;
+        }
+        input[type="radio"]:checked + .costume-card {
+            border-color: #9333ea; /* Morado para selección */
+            box-shadow: 0 0 15px #9333ea;
+            transform: scale(1.05);
+        }
+        
+        /* Animación para el estado de carga de la imagen final */
+        .loading-animation {
+            animation: pulse 1.5s infinite;
+            background-color: #1f2937; /* Fondo gris oscuro */
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body class="text-white min-h-screen">
+
+    <div class="hero-bg min-h-screen flex items-center justify-center py-10 md:py-20">
+        <div class="content-container w-full max-w-6xl mx-auto p-4 sm:p-6 lg:p-8">
+
+            <!-- Encabezado / Logo y Título -->
+            <header class="text-center mb-10">
+                <h1 class="font-halloween text-6xl sm:text-7xl lg:text-8xl text-[#ff8c00] mb-4 leading-none">
+                    PAWLLOWEEN
+                </h1>
+                <!-- Imagen central del perro Pomerania / Logo -->
+                <div class="inline-block rounded-full border-4 border-[#ff8c00] p-2 bg-black shadow-lg shadow-[#ff8c00]/50">
+                    <img src="https://placehold.co/150x150/8B4513/FFFFFF?text=ROYAL+POMS+LOGO"
+                         onerror="this.onerror=null; this.src='https://placehold.co/150x150/8B4513/FFFFFF?text=LOGO';"
+                         alt="Logo de Royal Poms - Pawlloween"
+                         class="w-32 h-32 sm:w-40 sm:h-40 rounded-full object-cover">
+                </div>
+                <p class="mt-4 text-2xl sm:text-3xl font-extrabold text-[#ffc800] tracking-wider">
+                    ROYAL POMS
+                </p>
+            </header>
+
+            <!-- La grilla principal: Evento/IA (Izquierda) y Formulario (Derecha) -->
+            <main class="grid md:grid-cols-2 gap-10">
+
+                <!-- Columna de Evento y Prueba Virtual (IA) -->
+                <section class="bg-black/70 p-6 sm:p-8 rounded-xl border border-[#ff8c00] shadow-xl shadow-[#ff8c00]/20 space-y-6">
+                    <h2 class="text-3xl font-bold text-white mb-6 text-center">
+                        ¡La fiesta más adorablemente aterradora!
+                    </h2>
+                    
+                    <!-- Detalles del Evento -->
+                    <div class="space-y-4 text-lg">
+                        <div class="flex items-start">
+                            <span class="icon-glow text-3xl mr-3">🗓️</span>
+                            <div>
+                                <p class="font-bold text-[#ffc800]">Fecha y Hora:</p>
+                                <p>Domingo 26</p>
+                                <p class="text-3xl font-halloween text-[#ff8c00]">9:30 am</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <span class="icon-glow text-3xl mr-3">⭐</span>
+                            <div>
+                                <p class="font-bold text-[#ffc800]">Un día mágico para tu perrito:</p>
+                                <ul class="list-disc list-inside ml-2 space-y-1">
+                                    <li>Premios especiales 🏆</li>
+                                    <li>Regalitos para todos 🎁</li>
+                                    <li>Concursos divertidísimos ✨</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <p class="font-bold text-xl text-red-500 mt-6 text-center">
+                            Cupo Limitado - ¡No dejes que tu peludito se la pierda!
+                        </p>
+
+                        <!-- RESERVA TU ESPACIO AL 6487-8634 -->
+                        <div class="text-center pt-4 border-t border-[#ff8c00]/50">
+                             <p class="font-bold text-white text-lg mb-2">Reserva tu espacio al:</p>
+                             <p class="font-halloween text-5xl text-[#ffc800] tracking-wider">6487-8634</p>
+                        </div>
+                    </div>
+
+
+                    <!-- SECCIÓN PRUEBA VIRTUAL DE DISFRACES (IA) - BAJO EL NÚMERO DE CONTACTO -->
+                    <div class="pt-6 border-t border-purple-500/50 space-y-6">
+                        <h3 class="text-2xl font-bold text-[#ffc800] text-center mb-4">👑 Prueba Virtual de Disfraces</h3>
+                        
+                        <!-- Contenedor general de pasos -->
+                        <div id="costumeStudio" class="space-y-6 p-4 bg-gray-900/50 rounded-xl border border-purple-500 shadow-md shadow-purple-500/20">
+                            
+                            <!-- Contenedor para la carga/errores -->
+                            <div id="llmResponseContainer" class="p-3 bg-gray-900 rounded-lg hidden">
+                                <p id="llmLoading" class="text-center text-purple-400 hidden">
+                                    ⏳ Cargando...
+                                </p>
+                                <p id="llmError" class="text-center text-red-400 hidden"></p>
+                            </div>
+
+                            <!-- PASO 1: Selección de Disfraz (Galería Horizontal con 16 imágenes) -->
+                            <div id="step1" class="space-y-4">
+                                <p class="text-purple-400 font-bold">PASO 1: Elige uno de nuestros 16 disfraces Royal Poms</p>
+                                
+                                <!-- Galería Desplazable Horizontalmente -->
+                                <div id="costumeIdeasContainer" class="flex overflow-x-auto space-x-3 pb-2">
+                                    <!-- Aquí inyectaremos los 16 disfraces -->
+                                </div>
+    
+                                <button id="goToStep2Button" type="button" disabled
+                                    class="w-full py-2 bg-green-600 hover:bg-green-700 rounded-lg text-white font-extrabold text-lg shadow-md shadow-green-600/50 transition duration-300 disabled:opacity-50">
+                                    ✅ Seleccionar y Continuar al Paso 2
+                                </button>
+                            </div>
+                            
+                            <!-- PASO 2: Subir Foto y Fusionar -->
+                            <div id="step2" class="hidden space-y-4 pt-4 border-t border-gray-700">
+                                <p class="text-purple-400 font-bold">PASO 2: Sube la Foto de tu Perrito y Fusiona</p>
+                                
+                                <div>
+                                    <label for="dogPhotoUpload" class="block text-sm font-medium text-[#ffc800] mb-1">Sube una foto clara de tu perrito (fondo neutro recomendado):</label>
+                                    <input type="file" id="dogPhotoUpload" accept="image/*"
+                                        class="w-full text-sm text-gray-500
+                                        file:mr-4 file:py-2 file:px-4
+                                        file:rounded-full file:border-0
+                                        file:text-sm file:font-semibold
+                                        file:bg-purple-50 file:text-purple-700
+                                        hover:file:bg-purple-100">
+                                </div>
+
+                                <div id="dogPhotoPreview" class="w-full h-40 bg-gray-900 rounded-lg flex items-center justify-center text-gray-500 italic text-sm border border-dashed border-gray-700">
+                                    Vista previa de la foto...
+                                </div>
+
+                                <div class="space-y-2">
+                                    <label for="aiDogName" class="block text-sm font-medium text-[#ffc800] mb-1">Nombre de tu Perrito(a) (Opcional):</label>
+                                    <input type="text" id="aiDogName" name="aiDogName" 
+                                        class="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:border-purple-500 focus:ring-purple-500 text-white placeholder-gray-500"
+                                        placeholder="Ej: Fantasmita">
+                                </div>
+
+                                <button id="generateFinalButton" type="button" disabled
+                                    class="w-full py-3 bg-red-600 hover:bg-red-700 rounded-lg text-white font-extrabold text-xl shadow-md shadow-red-600/50 transition duration-300 disabled:opacity-50">
+                                    🖼️ ¡Crear Foto de Pawlloween!
+                                </button>
+                            </div>
+
+                            <!-- PASO 3: Resultado Final (con animación de carga) -->
+                            <div id="finalResultContainer" class="hidden space-y-4 pt-4 border-t border-gray-700">
+                                <h4 class="text-xl font-bold text-red-500 text-center font-halloween">¡Aquí está la obra maestra!</h4>
+                                <div id="finalImageOutput" class="w-full h-80 bg-gray-900 rounded-lg overflow-hidden border border-red-500 flex items-center justify-center">
+                                    <!-- Imagen final y descripción aquí -->
+                                    <div class="w-full h-full loading-animation hidden flex items-center justify-center text-xl font-bold text-white">Cargando Imagen...</div>
+                                </div>
+                                <button id="resetButton" type="button"
+                                    class="w-full py-2 bg-gray-600 hover:bg-gray-700 rounded-lg text-white font-extrabold text-sm">
+                                    Volver a empezar
+                                </button>
+                            </div>
+
+                        </div>
+
+                        <!-- Botón TTS -->
+                        <div class="border-t border-gray-700 pt-4">
+                            <button id="ttsButton" type="button"
+                                class="w-full py-2 bg-yellow-600 hover:bg-yellow-700 rounded-lg text-black font-extrabold text-lg shadow-md shadow-yellow-600/50 transition duration-300 disabled:opacity-50" disabled>
+                                🔊 Escuchar Anuncio del Evento
+                            </button>
+                        </div>
+                    </div>
+
+                </section>
+
+                <!-- Columna del Formulario de Registro (Conversión) -->
+                <section class="bg-black/90 p-6 sm:p-8 rounded-xl border-2 border-red-600 shadow-2xl shadow-red-600/40 h-fit">
+                    <h2 class="text-3xl font-extrabold text-red-500 mb-6 text-center font-halloween">
+                        ¡ASEGURA TU LUGAR AHORA!
+                    </h2>
+                    
+                    <!-- 1. VISTA PREVIA DE DISFRACES Y SUBIDA DE FOTO SIMPLIFICADA -->
+                    <div class="border-b border-gray-700 pb-4 mb-6">
+                        <h3 class="text-xl font-bold text-[#ffc800] text-center mb-3">🐾 ¡Visualiza el gran cambio!</h3>
+                        
+                        <!-- Cuadro de subida de imagen para el cliente -->
+                        <div class="mt-5 p-4 bg-gray-800 rounded-xl border-2 border-dashed border-purple-500 space-y-3">
+                             <p class="text-sm font-bold text-purple-400">¿Quieres una prueba virtual rápida? Sube la foto de tu perrito aquí:</p>
+                             
+                             <div>
+                                <label for="photoUploadSimple" class="block text-xs font-medium text-white mb-1">Foto:</label>
+                                <input type="file" id="photoUploadSimple" accept="image/*"
+                                    class="w-full text-xs text-gray-500
+                                    file:mr-2 file:py-1 file:px-3
+                                    file:rounded-full file:border-0
+                                    file:text-xs file:font-semibold
+                                    file:bg-purple-50 file:text-purple-700
+                                    hover:file:bg-purple-100">
+                             </div>
+                             
+                             <div>
+                                <label for="dogNameSimple" class="block text-xs font-medium text-white mb-1">Nombre del perrito:</label>
+                                <input type="text" id="dogNameSimple" 
+                                    class="w-full px-3 py-1 rounded-lg bg-gray-900 border border-gray-700 text-white placeholder-gray-500 text-sm"
+                                    placeholder="Fantasmita">
+                             </div>
+                             <p class="text-xs text-gray-500 mt-2">Nota: Esta subida alimenta el probador virtual a la izquierda. ¡Haz clic en 'Seleccionar' y 'Crear' allá!</p>
+                        </div>
+                    </div>
+
+
+                    <!-- 2. FORMULARIO DE RESERVA -->
+                    <form id="reservationForm" class="space-y-5">
+                        <div>
+                            <label for="ownerName" class="block text-sm font-medium text-[#ffc800] mb-1">Nombre Completo del Dueño:</label>
+                            <input type="text" id="ownerName" name="ownerName" required
+                                class="w-full px-4 py-2 rounded-lg bg-gray-900 border border-gray-700 focus:border-red-500 focus:ring-red-500 text-white placeholder-gray-500"
+                                placeholder="Ej: Laura Pérez">
+                        </div>
+
+                        <div>
+                            <label for="dogName" class="block text-sm font-medium text-[#ffc800] mb-1">Nombre de tu Perrito(a):</label>
+                            <input type="text" id="dogName" name="dogName" 
+                                class="w-full px-4 py-2 rounded-lg bg-gray-900 border border-gray-700 focus:border-red-500 focus:ring-red-500 text-white placeholder-gray-500"
+                                placeholder="Ej: Fantasmita (Opcional)">
+                        </div>
+
+                        <div>
+                            <label for="phone" class="block text-sm font-medium text-[#ffc800] mb-1">Teléfono / WhatsApp:</label>
+                            <input type="tel" id="phone" name="phone" required
+                                class="w-full px-4 py-2 rounded-lg bg-gray-900 border border-gray-700 focus:border-red-500 focus:ring-red-500 text-white placeholder-gray-500"
+                                placeholder="Ej: 64878634">
+                        </div>
+
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-[#ffc800] mb-1">Correo Electrónico (Opcional):</label>
+                            <input type="email" id="email" name="email"
+                                class="w-full px-4 py-2 rounded-lg bg-gray-900 border border-gray-700 focus:border-red-500 focus:ring-red-500 text-white placeholder-gray-500"
+                                placeholder="Ej: tu_correo@dominio.com">
+                        </div>
+
+                        <!-- Botón CTA de Envío -->
+                        <button type="submit"
+                            class="cta-button w-full py-3 bg-red-600 hover:bg-red-700 rounded-lg text-white font-extrabold text-xl uppercase tracking-wider shadow-lg shadow-red-600/50 mt-6"
+                            aria-live="polite">
+                            Quiero Reservar mi Cupo
+                        </button>
+                    </form>
+
+                    <!-- Mensaje de Confirmación / Error -->
+                    <div id="messageBox" class="mt-4 p-3 rounded-lg text-center hidden"></div>
+                </section>
+            </main>
+
+        </div>
+    </div>
+
+    <footer class="bg-black border-t border-[#ff8c00]/50 py-4 text-center text-sm text-gray-500">
+        <p>&copy; 2025 Royal Poms. Un día mágico para tu perrito. ¡Te esperamos!</p>
+    </footer>
+
+    <script>
+        // --- 1. CONFIGURACIÓN Y UTILIDADES GLOBALES ---
+
+        // Variables globales requeridas
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const apiKey = ""; // La clave se proporcionará automáticamente por Canvas
+        let uploadedImageBase64 = null;
+        let selectedCostumePrompt = null;
+        
+        // ** LISTADO COMPLETO DE 16 DISFRACES **
+        const fixedCostumes = [
+            // Disfraces con nombres conocidos
+            { title: "Reina de Corazones 👑", prompt: "Un detallado y lujoso disfraz de Reina de Corazones de Royal Poms, con un vestido de terciopelo negro, cuello blanco de volantes, bordados dorados, pequeños corazones rojos, un gran lazo de satén rojo en la espalda y una corona dorada con un corazón rojo en la parte superior.", fetchId: 'uploaded:IMG-20250429-WA0021.jpg-854bd48a-2270-4bd2-aa89-edbf1f1d13a3' },
+            { title: "Sombrerero Loco 🎩", prompt: "Un detallado disfraz de Sombrerero Loco para perro, con un chaleco de terciopelo naranja, un moño a rayas negras y azules, una cadena dorada y un sombrero de copa a juego con plumas naranjas.", fetchId: 'uploaded:IMG-20250429-WA0037.jpg-ba468d9d-99ea-4953-91d3-3f90442afba4' },
+            { title: "Barbie de Gingham 💖", prompt: "Un vestido de perrita estilo Barbie, con tela de vichy rosa y blanco, tirantes anchos, un lazo grande en la cabeza y falda de tul.", fetchId: 'uploaded:IMG-20250429-WA0029.jpg-58fcb2cf-f63c-4920-8b8c-42f31407786f' },
+            { title: "Súper Perro 🦸‍♂️", prompt: "Un disfraz de superhéroe para perro, un suéter de cuello alto color azul con el escudo clásico de 'S' en el pecho (rojo y amarillo), y una capa roja brillante que fluye por detrás.", fetchId: 'uploaded:IMG-20250429-WA0027.jpg-3768f04c-bcfb-4dfd-880c-67a153711aa8' },
+            { title: "Princesa Bella 🌹", prompt: "Un lujoso vestido de Princesa Bella para perrita, de color amarillo intenso, con corsé de satén y una falda voluminosa de tul brillante. Incluye un lazo amarillo con un detalle de joya roja en el centro.", fetchId: 'uploaded:IMG-20250429-WA0033.jpg-ca261d40-5c39-4d72-b65a-dab17d671115' },
+            { title: "Mago de Hogwarts 🧙‍♂️", prompt: "Una capa de mago negra con forro burdeos y un escudo de casa de magia. Incluye un sombrero puntiagudo y una bufanda a rayas.", fetchId: 'uploaded:IMG-20250429-WA0020.jpg-ebc01bb7-07b9-4967-bb36-d6858c89c74d' },
+
+            // Disfraces Genéricos/Adicionales
+            { title: "Monstruo de Lujo 👹", prompt: "Un disfraz de monstruo de terciopelo verde y azul, con pequeños cuernos y un cuello alto y esponjoso.", fetchId: 'uploaded:1.jpg-a2b5003e-1768-4a61-93c6-7fe42b9e6f1c' },
+            { title: "Vestido Floral Oscuro 🌸", prompt: "Un elegante vestido de noche para perrita, de tela negra con patrones florales y un lazo negro grande.", fetchId: 'uploaded:2.jpg-579da56c-7e1f-47df-b0e6-8e6960fe6fe9' },
+            { title: "Traje de Gala Rojo ❤️", prompt: "Un traje formal de dos piezas en rojo brillante con solapas negras y un pequeño moño.", fetchId: 'uploaded:3.jpg-7050836f-759f-4722-8ff9-88c8d1f56745' },
+            { title: "Vestido de Época Dorado ✨", prompt: "Un vestido voluminoso estilo princesa, con tela dorada y detalles de encaje y perlas.", fetchId: 'uploaded:Generated Item.jpg-3dc5eed1-8287-441d-87e4-e5134ff8de17' },
+            { title: "Gala de Encaje Negro 🖤", prompt: "Un vestido de gala de encaje negro con detalles de tul y una tiara discreta.", fetchId: 'uploaded:IMG-20250429-WA0032.jpg-b0433f2a-5c89-4f1e-8be5-d4c271619741' },
+            { title: "Traje de Calabaza 🎃", prompt: "Un traje completo de calabaza naranja brillante con hojas verdes y un pequeño gorro de tallo.", fetchId: 'uploaded:IMG-20250429-WA0028.jpg-041b9cbd-d2d2-4413-83f1-96502e0741ba' },
+            { title: "Mariposa Azul 🦋", prompt: "Un elegante disfraz de mariposa con alas grandes de color azul metálico y un cuerpo de terciopelo negro.", fetchId: 'uploaded:IMG-20250429-WA0030.jpg-2e0f3f8f-a239-472c-a538-4801b0f6adcb' },
+            { title: "Bruja Malvada 🔮", prompt: "Un vestido morado y negro con mangas largas y un sombrero de bruja puntiagudo con una hebilla dorada.", fetchId: 'uploaded:IMG-20250429-WA0031.jpg-b5bacbe2-8d59-4db8-9f8f-7ed966c8dc73' },
+            { title: "Diablito Rojo 🔥", prompt: "Un traje de diablo rojo satinado con un pequeño tridente y cuernos rojos brillantes en la cabeza.", fetchId: 'uploaded:IMG-20250429-WA0022.jpg-f73c1119-5339-4494-a16f-089299558aa1' },
+            { title: "Esqueleto Elegante 💀", prompt: "Un traje formal negro con huesos blancos pintados sobre él. Incluye un pequeño sombrero de copa negro.", fetchId: 'uploaded:IMG-20250429-WA0016.jpg-1cd37153-dd47-448b-b829-efa7c0c9a505' },
+        ];
+
+        // Referencias a elementos del DOM
+        const llmResponseContainer = document.getElementById('llmResponseContainer');
+        const llmLoading = document.getElementById('llmLoading');
+        const llmError = document.getElementById('llmError');
+        const goToStep2Button = document.getElementById('goToStep2Button'); 
+        const costumeIdeasContainer = document.getElementById('costumeIdeasContainer');
+        const dogPhotoUpload = document.getElementById('dogPhotoUpload');
+        const dogPhotoPreview = document.getElementById('dogPhotoPreview');
+        const generateFinalButton = document.getElementById('generateFinalButton');
+        const finalResultContainer = document.getElementById('finalResultContainer');
+        const finalImageOutput = document.getElementById('finalImageOutput');
+        const resetButton = document.getElementById('resetButton');
+        
+        // Elementos simplificados del Formulario de Reserva
+        const photoUploadSimple = document.getElementById('photoUploadSimple');
+        const dogNameSimple = document.getElementById('dogNameSimple');
+
+        const step1 = document.getElementById('step1');
+        const step2 = document.getElementById('step2'); 
+
+        function showLoading(message) {
+            llmResponseContainer.classList.remove('hidden');
+            llmLoading.classList.remove('hidden');
+            llmError.classList.add('hidden');
+            llmLoading.textContent = message;
+        }
+
+        function showError(message) {
+            llmResponseContainer.classList.remove('hidden');
+            llmLoading.classList.add('hidden');
+            llmError.classList.remove('hidden');
+            llmError.textContent = message;
+        }
+
+        function hideLoading() {
+            llmLoading.classList.add('hidden');
+            llmError.classList.add('hidden');
+        }
+        
+        // Función de utilidad para manejar el backoff exponencial en las llamadas a la API
+        async function fetchWithExponentialBackoff(url, options, maxRetries = 5) {
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (response.status !== 429) {
+                        return response;
+                    }
+                    const delay = Math.pow(2, i) * 1000 + Math.random() * 1000;
+                    console.warn(`[API] Throttle (429). Reintentando en ${delay.toFixed(0)}ms...`);
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                } catch (error) {
+                    console.error(`[API] Error de red en intento ${i + 1}:`, error);
+                    if (i === maxRetries - 1) throw error;
+                    const delay = Math.pow(2, i) * 1000 + Math.random() * 1000;
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                }
+            }
+            throw new Error("Máximo de reintentos de API excedido.");
+        }
+
+        // --- 2. FUNCIONALIDADES GEMINI (IMAGEN + TEXTO) ---
+
+        /**
+         * Inicializa y muestra todos los 16 disfraces fijos en la galería horizontal.
+         */
+        function initializeFixedCostumeIdeas() {
+            let html = '';
+            
+            fixedCostumes.forEach((idea, index) => {
+                const id = `costume${index}`;
+                
+                html += `
+                    <label for="${id}" class="block flex-shrink-0" title="${idea.title}">
+                        <input type="radio" id="${id}" name="selectedCostume" value="${index}" class="hidden peer">
+                        <div class="costume-card bg-gray-900 rounded-lg overflow-hidden shadow-lg border border-gray-700">
+                            <!-- La imagen del disfraz -->
+                            <img src="${idea.fetchId}" alt="${idea.title}" 
+                                class="w-full h-full object-cover"
+                                onerror="this.onerror=null; this.src='https://placehold.co/100x100/facc15/000000?text=FAIL';">
+                        </div>
+                    </label>
+                `;
+            });
+
+            costumeIdeasContainer.innerHTML = html;
+            
+            // Listener para la selección del disfraz
+            document.querySelectorAll('input[name="selectedCostume"]').forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    const index = parseInt(e.target.value);
+                    selectedCostumePrompt = fixedCostumes[index].prompt; 
+                    goToStep2Button.disabled = false;
+                });
+            });
+
+            step1.classList.remove('hidden');
+        }
+        
+        /**
+         * PASO 3: Genera la imagen final usando Image-to-Image (gemini-2.5-flash-image-preview).
+         */
+        async function generateFinalComposite() {
+            if (!uploadedImageBase64) {
+                showError('🚨 Por favor, sube una foto de tu perrito antes de continuar.');
+                return;
+            }
+            if (!selectedCostumePrompt) {
+                showError('🚨 Por favor, selecciona un disfraz del Paso 1.');
+                return;
+            }
+            
+            const dogName = document.getElementById('aiDogName').value.trim() || "tu perrito";
+
+            // Mostrar el contenedor de carga con la animación CSS
+            const loadingAnimationElement = finalImageOutput.querySelector('.loading-animation');
+            finalImageOutput.innerHTML = '';
+            loadingAnimationElement.classList.remove('hidden');
+            finalResultContainer.classList.remove('hidden');
+            step1.classList.add('hidden');
+            step2.classList.add('hidden');
+            
+            showLoading(`⏳ Vista previa virtual de ${dogName}. Esto puede tardar unos segundos...`);
+            generateFinalButton.disabled = true;
+
+
+            const flashApiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image-preview:generateContent?key=${apiKey}`;
+
+            // 1. Generar la descripción creativa (texto)
+            const costumeTitle = fixedCostumes.find(c => c.prompt === selectedCostumePrompt)?.title || "un disfraz de lujo";
+            const textPrompt = `Inventa una descripción creativa de una línea y media (máximo 20 palabras) sobre la aventura que vivirá el perro ${dogName} con el disfraz de "${costumeTitle}". Concluye con un emoji de Halloween.`;
+            let creativeDescription = "";
+            try {
+                const textResponse = await fetchWithExponentialBackoff(
+                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`,
+                    {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ contents: [{ parts: [{ text: textPrompt }] }] })
+                    }
+                );
+                const textResult = await textResponse.json();
+                creativeDescription = textResult.candidates?.[0]?.content?.parts?.[0]?.text || "¡Una nueva y aterradora aventura espera!";
+            } catch (e) {
+                 console.error("Error al generar descripción:", e);
+                 creativeDescription = `¡${dogName} es la estrella de Pawlloween con el disfraz de ${costumeTitle}! 🌟`; // Fallback
+            }
+
+            // 2. Generar la imagen (Image-to-Image)
+            const imagePromptForFlash = `Viste al perro de la foto con el siguiente disfraz: ${selectedCostumePrompt}. El perro debe ser la figura central, la iluminación de estudio de fotografía, el fondo de Halloween es opcional pero el disfraz debe ser realista, bien ajustado y hermoso como el diseño de Royal Poms.`;
+
+            const imageMimeType = dogPhotoUpload.files[0].type;
+            const imageBase64Data = uploadedImageBase64.split(',')[1]; // Remover el prefijo data:image/...
+
+            const imagePayload = {
+                contents: [{
+                    parts: [
+                        { text: imagePromptForFlash },
+                        { inlineData: { mimeType: imageMimeType, data: imageBase64Data } }
+                    ]
+                }],
+                generationConfig: {
+                    responseModalities: ['TEXT', 'IMAGE']
+                },
+            };
+
+            try {
+                const imageResponse = await fetchWithExponentialBackoff(flashApiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(imagePayload)
+                });
+                
+                const imageResult = await imageResponse.json();
+                const base64Data = imageResult?.candidates?.[0]?.content?.parts?.find(p => p.inlineData)?.inlineData?.data;
+
+                if (!base64Data) {
+                    throw new Error("Respuesta de imagen vacía.");
+                }
+
+                const finalImageUrl = `data:image/png;base64,${base64Data}`;
+                
+                // Ocultar animación y mostrar resultado
+                loadingAnimationElement.classList.add('hidden');
+                finalImageOutput.innerHTML = `
+                    <img src="${finalImageUrl}" alt="Perrito con disfraz generado por IA" class="w-full h-auto max-h-full object-contain rounded-t-lg">
+                    <div class="p-3 bg-gray-800 absolute bottom-0 left-0 right-0">
+                        <p class="text-sm italic text-gray-200 font-medium text-center">${creativeDescription}</p>
+                    </div>
+                `;
+
+                hideLoading();
+
+            } catch (error) {
+                console.error("Error al generar la imagen final:", error);
+                loadingAnimationElement.classList.add('hidden');
+                showError('❌ Error al generar la imagen final. Asegúrate de que la foto del perrito es clara y con buen contraste. Intenta con otro disfraz.');
+            } finally {
+                generateFinalButton.disabled = false;
+            }
+        }
+        
+        // --- 3. FUNCIONALIDADES AUXILIARES (TTS) ---
+
+        // Configuración y llamadas TTS
+        const ttsAudio = document.createElement('audio'); // Crear elemento de audio
+        ttsAudio.setAttribute('id', 'ttsAudio');
+        document.body.appendChild(ttsAudio);
+        const ttsButton = document.getElementById('ttsButton');
+        
+        function base64ToArrayBuffer(base64) { 
+            const binaryString = atob(base64);
+            const len = binaryString.length;
+            const bytes = new Uint8Array(len);
+            for (let i = 0; i < len; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            return bytes.buffer;
+        }
+
+        function pcmToWav(pcm16Data, sampleRate) {
+            const numChannels = 1;
+            const bytesPerSample = 2;
+            const numSamples = pcm16Data.length;
+            const dataSize = numSamples * bytesPerSample;
+            const buffer = new ArrayBuffer(44 + dataSize);
+            const view = new DataView(buffer);
+
+            let offset = 0;
+            // RIFF chunk
+            writeString(view, offset, 'RIFF'); offset += 4;
+            view.setUint32(offset, 36 + dataSize, true); offset += 4;
+            writeString(view, offset, 'WAVE'); offset += 4;
+            // fmt chunk
+            writeString(view, offset, 'fmt '); offset += 4;
+            view.setUint32(offset, 16, true); offset += 4; 
+            view.setUint16(offset, 1, true); offset += 2; 
+            view.setUint16(offset, numChannels, true); offset += 2; 
+            view.setUint32(offset, sampleRate, true); offset += 4; 
+            view.setUint32(offset, sampleRate * numChannels * bytesPerSample, true); offset += 4; 
+            view.setUint16(offset, numChannels * bytesPerSample, true); offset += 2; 
+            view.setUint16(offset, 16, true); offset += 2; 
+            // data chunk
+            writeString(view, offset, 'data'); offset += 4;
+            view.setUint32(offset, dataSize, true); offset += 4;
+            // Write PCM data
+            for (let i = 0; i < numSamples; i++, offset += bytesPerSample) {
+                view.setInt16(offset, pcm16Data[i], true);
+            }
+            return new Blob([view], { type: 'audio/wav' });
+        }
+
+        function writeString(view, offset, string) {
+            for (let i = 0; i < string.length; i++) {
+                view.setUint8(offset + i, string.charCodeAt(i));
+            }
+        }
+        
+        async function playEventAudio() {
+            const ttsText = "Pawlloween de Royal Poms. ¡La fiesta más adorablemente aterradora del año! Te esperamos este Domingo 26 a las 9 y 30 de la mañana.";
+            ttsButton.disabled = true;
+            showLoading('⏳ Generando audio del anuncio...');
+
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
+
+            const payload = {
+                contents: [{ parts: [{ text: ttsText }] }],
+                generationConfig: {
+                    responseModalities: ["AUDIO"],
+                    speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Puck" } } }
+                },
+                model: "gemini-2.5-flash-preview-tts"
+            };
+
+            try {
+                const response = await fetchWithExponentialBackoff(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                const part = result?.candidates?.[0]?.content?.parts?.[0];
+                const audioData = part?.inlineData?.data;
+                const mimeType = part?.inlineData?.mimeType;
+
+                if (audioData && mimeType && mimeType.startsWith("audio/L16")) {
+                    const match = mimeType.match(/rate=(\d+)/);
+                    const sampleRate = match ? parseInt(match[1], 10) : 24000;
+                    const pcmData = base64ToArrayBuffer(audioData);
+                    const pcm16 = new Int16Array(pcmData);
+                    const wavBlob = pcmToWav(pcm16, sampleRate);
+                    const audioUrl = URL.createObjectURL(wavBlob);
+
+                    ttsAudio.src = audioUrl;
+                    llmResponseContainer.classList.remove('hidden');
+                    llmError.classList.add('hidden');
+                    llmLoading.textContent = '🎶 Audio listo para reproducir:';
+                    ttsAudio.play();
+
+                } else {
+                    showError('❌ Error al generar audio. Respuesta de API inesperada.');
+                }
+            } catch (error) {
+                showError('❌ Error al conectar con el generador de audio. Por favor, inténtalo más tarde.');
+            } finally {
+                ttsButton.disabled = false;
+            }
+        }
+
+        // --- 4. LISTENERS DE EVENTOS Y LÓGICA DE INTERFAZ ---
+
+        // Función para resetear la interfaz de IA
+        function resetCostumeStudio() {
+            step1.classList.remove('hidden');
+            step2.classList.add('hidden');
+            finalResultContainer.classList.add('hidden');
+            finalImageOutput.innerHTML = '';
+            finalImageOutput.querySelector('.loading-animation')?.classList.add('hidden');
+            llmResponseContainer.classList.add('hidden');
+            
+            // Deseleccionar el radio button
+            document.querySelectorAll('input[name="selectedCostume"]').forEach(radio => radio.checked = false);
+            
+            dogPhotoUpload.value = '';
+            dogPhotoPreview.innerHTML = 'Vista previa de la foto...';
+            dogPhotoPreview.classList.remove('bg-cover', 'bg-center');
+            dogPhotoPreview.style.backgroundImage = 'none';
+            
+            // Resetear también los campos simplificados (para mantener la sincronización)
+            photoUploadSimple.value = '';
+            dogNameSimple.value = '';
+            document.getElementById('aiDogName').value = '';
+
+            uploadedImageBase64 = null;
+            selectedCostumePrompt = null;
+            goToStep2Button.disabled = true;
+            generateFinalButton.disabled = true;
+        }
+
+        // 4.1. Formulario de Reserva 
+        document.getElementById('reservationForm').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+            const messageBox = document.getElementById('messageBox');
+            messageBox.classList.remove('hidden', 'bg-red-900/50', 'text-red-300', 'bg-green-900/50', 'text-green-300', 'bg-gray-800/50', 'text-gray-400');
+            messageBox.innerHTML = '';
+            const ownerName = document.getElementById('ownerName').value.trim();
+
+            if (ownerName === '') {
+                messageBox.classList.add('bg-red-900/50', 'text-red-300');
+                messageBox.innerHTML = '⚠️ Por favor, rellena tu nombre completo para la reserva.';
+                messageBox.classList.remove('hidden');
+                return;
+            }
+
+            setTimeout(() => {
+                messageBox.classList.add('bg-green-900/50', 'text-green-300');
+                messageBox.innerHTML = `✅ ¡Reserva de ${ownerName} enviada con éxito! Te contactaremos pronto al número para confirmar.`;
+                messageBox.classList.remove('hidden');
+                document.getElementById('ownerName').value = '';
+                document.getElementById('dogName').value = '';
+                document.getElementById('phone').value = '';
+                document.getElementById('email').value = '';
+            }, 1500);
+
+            messageBox.classList.add('bg-gray-800/50', 'text-gray-400');
+            messageBox.innerHTML = '⏳ Procesando tu reserva...';
+            messageBox.classList.remove('hidden');
+        });
+        
+        // 4.2. Listeners para el Estudio de Disfraces
+
+        goToStep2Button.addEventListener('click', () => {
+            if (selectedCostumePrompt) {
+                step1.classList.add('hidden');
+                step2.classList.remove('hidden');
+                hideLoading(); // Ocultar mensajes de error/carga previos
+            } else {
+                showError('🚨 Por favor, selecciona un disfraz del listado.');
+            }
+        });
+
+        // Manejo y Previsualización de la foto
+        dogPhotoUpload.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    uploadedImageBase64 = e.target.result;
+                    dogPhotoPreview.innerHTML = '';
+                    dogPhotoPreview.classList.add('bg-cover', 'bg-center');
+                    dogPhotoPreview.style.backgroundSize = 'contain'; 
+                    dogPhotoPreview.style.backgroundRepeat = 'no-repeat';
+                    dogPhotoPreview.style.backgroundImage = `url('${e.target.result}')`;
+                    generateFinalButton.disabled = false;
+                };
+                reader.readAsDataURL(file);
+            } else {
+                uploadedImageBase64 = null;
+                dogPhotoPreview.innerHTML = 'Vista previa de la foto...';
+                dogPhotoPreview.classList.remove('bg-cover', 'bg-center');
+                dogPhotoPreview.style.backgroundImage = 'none';
+                generateFinalButton.disabled = true;
+            }
+        });
+        
+        // Sincronizar el campo de subida de imagen simple con el campo de IA principal
+        photoUploadSimple.addEventListener('change', function(event) {
+            dogPhotoUpload.files = event.target.files;
+            dogPhotoUpload.dispatchEvent(new Event('change')); // Activa el listener principal
+        });
+        
+        // Sincronizar el campo de nombre simple con el campo de IA principal
+        dogNameSimple.addEventListener('input', function(event) {
+            document.getElementById('aiDogName').value = event.target.value;
+        });
+
+        generateFinalButton.addEventListener('click', generateFinalComposite);
+        resetButton.addEventListener('click', resetCostumeStudio);
+
+        // 4.3. Listener TTS
+        ttsButton.addEventListener('click', playEventAudio);
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', () => {
+            ttsButton.disabled = false;
+            llmResponseContainer.classList.add('hidden');
+            initializeFixedCostumeIdeas(); // Cargar los 16 disfraces
+            resetCostumeStudio(); // Asegurar el estado inicial correcto
+            
+            // Re-agregar el elemento de animación si fue eliminado
+            if (!finalImageOutput.querySelector('.loading-animation')) {
+                 finalImageOutput.innerHTML = '<div class="w-full h-full loading-animation hidden flex items-center justify-center text-xl font-bold text-white">Cargando Imagen...</div>'
+            }
+        });
+
+    </script>
+</body>
+</html>
