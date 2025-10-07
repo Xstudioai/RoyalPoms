@@ -249,14 +249,15 @@ metadata:
 
 test_plan:
   current_focus:
-    - "OpenAI Image Generation Integration"
+    - "Virtual Try-On Image Display"
+    - "Download Button Functionality"
+    - "WhatsApp Sharing Integration"
   stuck_tasks: 
-    - "OpenAI Image Generation Integration"
     - "Virtual Try-On Image Display"
     - "Download Button Functionality"
     - "WhatsApp Sharing Integration"
   test_all: false
-  test_priority: "stuck_first"
+  test_priority: "high_first"
 
 agent_communication:
     - agent: "main"
