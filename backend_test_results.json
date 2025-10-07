@@ -1,0 +1,50 @@
+{
+  "timestamp": "2025-10-07T20:14:29.428632",
+  "total_tests": 7,
+  "passed_tests": 3,
+  "success_rate": 42.857142857142854,
+  "results": [
+    {
+      "test": "Root API Endpoint",
+      "status": "\u2705 PASSED",
+      "success": true,
+      "details": "Status: 200, Message: Gummy Pet Spa Virtual Try-On API"
+    },
+    {
+      "test": "Get Outfits (Empty)",
+      "status": "\u2705 PASSED",
+      "success": true,
+      "details": "Status: 200, Outfits count: 0"
+    },
+    {
+      "test": "Get All Results",
+      "status": "\u2705 PASSED",
+      "success": true,
+      "details": "Status: 200, Results count: 0"
+    },
+    {
+      "test": "Upload Invalid File",
+      "status": "\u274c FAILED",
+      "success": false,
+      "details": "Status: 500"
+    },
+    {
+      "test": "Try-on Without Outfit",
+      "status": "\u274c FAILED",
+      "success": false,
+      "details": "Status: 500"
+    },
+    {
+      "test": "WhatsApp Link Invalid ID",
+      "status": "\u274c FAILED",
+      "success": false,
+      "details": "Status: 500"
+    },
+    {
+      "test": "CORS Headers",
+      "status": "\u274c FAILED",
+      "success": false,
+      "details": "CORS headers found: []"
+    }
+  ]
+}
