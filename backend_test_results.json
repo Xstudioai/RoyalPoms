@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-10-07T21:09:35.855984",
+  "timestamp": "2025-10-07T21:11:54.943294",
   "total_tests": 9,
   "passed_tests": 7,
   "success_rate": 77.77777777777779,
@@ -14,7 +14,7 @@
       "test": "Get Outfits (Empty)",
       "status": "\u2705 PASSED",
       "success": true,
-      "details": "Status: 200, Outfits count: 6"
+      "details": "Status: 200, Outfits count: 7"
     },
     {
       "test": "Get All Results",
@@ -50,13 +50,13 @@
       "test": "Upload Test Outfit",
       "status": "\u2705 PASSED",
       "success": true,
-      "details": "Status: 200, Outfit ID: be606a35-1d82-4eb8-9135-1716f66e07fa"
+      "details": "Status: 200, Outfit ID: 4b1250f5-a6cf-42a9-bc07-2a014c49522d"
     },
     {
       "test": "Virtual Try-On Generation",
       "status": "\u274c FAILED",
       "success": false,
-      "details": "Status: 500, Error: Failed to generate image: Error code: 401 - {'error': {'message': 'Incorrect API key provided: sk-emerg******************bBeB. You can find your API key at https://platform.openai.com/account/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+      "details": "Status: 500, Error: Failed to generate image: Connection error."
     }
   ]
 }
