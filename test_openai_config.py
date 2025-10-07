@@ -86,5 +86,9 @@ async def test_openai_config():
     return False, None
 
 if __name__ == "__main__":
-    success = asyncio.run(test_openai_config())
+    success, working_endpoint = asyncio.run(test_openai_config())
+    if success:
+        print(f"\n✅ Working endpoint found: {working_endpoint}")
+    else:
+        print(f"\n❌ No working endpoints found")
     sys.exit(0 if success else 1)
