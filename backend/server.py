@@ -124,11 +124,20 @@ async def upload_catalog(file: UploadFile = File(...)):
         if not file.filename.endswith('.pdf'):
             raise HTTPException(status_code=400, detail="Only PDF files are allowed")
         
+        if file.size == 0:
+            raise HTTPException(status_code=400, detail="File is empty")
+        
         # Read PDF file
         pdf_content = await file.read()
         
+        if len(pdf_content) == 0:
+            raise HTTPException(status_code=400, detail="PDF file is empty")
+        
         # Convert PDF pages to images
         images = convert_from_bytes(pdf_content, dpi=200)
+        
+        if len(images) == 0:
+            raise HTTPException(status_code=400, detail="No images found in PDF")
         
         outfits = []
         for i, image in enumerate(images):
@@ -148,9 +157,11 @@ async def upload_catalog(file: UploadFile = File(...)):
             outfits.append(outfit)
         
         return {"message": f"Successfully extracted {len(outfits)} outfits from catalog", "outfits": len(outfits)}
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"Error processing catalog: {e}")
-        raise HTTPException(status_code=500, detail=f"Error processing catalog: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Internal server error processing catalog")
 
 @api_router.get("/outfits", response_model=List[OutfitItem])
 async def get_outfits():
