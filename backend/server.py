@@ -15,8 +15,8 @@ import io
 from PIL import Image
 import PyPDF2
 from pdf2image import convert_from_bytes
+from emergentintegrations.llm.openai.image_generation import OpenAIImageGeneration
 import urllib.request
-import openai
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
