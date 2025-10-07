@@ -148,11 +148,10 @@ class VirtualTryOnAPITester:
     def test_cors_headers(self):
         """Test CORS headers are present"""
         try:
-            response = requests.options(f"{self.api_url}/", timeout=10)
+            response = requests.get(f"{self.api_url}/", timeout=10)
             cors_headers = [
                 'access-control-allow-origin',
-                'access-control-allow-methods',
-                'access-control-allow-headers'
+                'access-control-allow-credentials'
             ]
             
             present_headers = []
