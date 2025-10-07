@@ -109,7 +109,7 @@ backend:
     implemented: true
     working: false
     file: "server.py"
-    stuck_count: 2
+    stuck_count: 3
     priority: "high"
     needs_retesting: false
     status_history:
@@ -128,6 +128,9 @@ backend:
         - working: false
         - agent: "testing"
         - comment: "CRITICAL API KEY ISSUE: Direct OpenAI API integration fails with 401 Unauthorized. Error: 'Incorrect API key provided: sk-emerg******************bBeB'. The Emergent Universal Key is not accepted by the direct OpenAI API endpoint (api.openai.com). Backend logs show HTTP 401 responses. This confirms the API key is incompatible with direct OpenAI API access."
+        - working: false
+        - agent: "testing"
+        - comment: "CONFIRMED PERSISTENT ISSUE: After main agent's correction to use base_url='https://api.emergent.rest', the issue persists. Comprehensive testing shows: 1) Network connectivity failure - container cannot resolve api.emergent.rest (DNS error), 2) API key incompatibility - sk-emergent key format not accepted by standard OpenAI API, 3) All Emergent endpoints unreachable from container environment. Backend test shows 77.8% success rate for other APIs, but /api/tryon fails with 'Connection error'. This is a fundamental infrastructure/network access issue preventing any OpenAI API integration."
 
   - task: "Watermark Logo Functionality"
     implemented: true
