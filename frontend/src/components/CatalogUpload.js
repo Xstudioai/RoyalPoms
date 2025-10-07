@@ -102,7 +102,7 @@ const CatalogUpload = () => {
                 }`}
               >
                 <input {...getInputProps()} />
-                <UploadIcon className="w-16 h-16 text-white/70 mx-auto mb-6" />
+                <ArrowUpTrayIcon className="w-16 h-16 text-white/70 mx-auto mb-6" />
                 {isDragActive ? (
                   <p className="text-xl text-yellow-400">¡Suelta el archivo PDF aquí!</p>
                 ) : (
