@@ -109,13 +109,16 @@ backend:
     implemented: true
     working: false
     file: "server.py"
-    stuck_count: 1
+    stuck_count: 2
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
         - working: false
         - agent: "user"
         - comment: "Usuario reporta que no se genera imagen final de fusión outfit+perro"
+        - working: false
+        - agent: "testing"
+        - comment: "CRITICAL ISSUE: emergentintegrations library failing with LiteLLM BadRequestError - 'extra_headers' parameter not supported by OpenAI API. Library needs update or replacement. Mock implementation works correctly, confirming API structure is sound."
 
   - task: "Watermark Logo Functionality"
     implemented: true
