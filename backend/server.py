@@ -302,11 +302,23 @@ async def create_tryon(request: TryonRequest):
         """
         
         # Generate image using OpenAI Image Generation
-        result_images = await image_gen.generate_images(
-            prompt=prompt,
-            model="gpt-image-1",
-            number_of_images=1
-        )
+        try:
+            result_images = await image_gen.generate_images(
+                prompt=prompt,
+                model="dall-e-3",
+                number_of_images=1
+            )
+        except Exception as e:
+            logger.error(f"Error with dall-e-3, trying dall-e-2: {e}")
+            try:
+                result_images = await image_gen.generate_images(
+                    prompt=prompt,
+                    model="dall-e-2",
+                    number_of_images=1
+                )
+            except Exception as e2:
+                logger.error(f"Error with dall-e-2: {e2}")
+                raise HTTPException(status_code=500, detail=f"Image generation failed: {str(e2)}")
         
         if not result_images or len(result_images) == 0:
             raise HTTPException(status_code=500, detail="No image was generated")
