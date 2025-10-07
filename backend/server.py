@@ -281,6 +281,9 @@ async def get_tryon_result(tryon_id: str):
 async def generate_whatsapp_link(tryon_id: str):
     """Generate WhatsApp sharing link"""
     try:
+        if not tryon_id:
+            raise HTTPException(status_code=400, detail="Try-on ID is required")
+        
         result = await db.tryon_results.find_one({"id": tryon_id})
         if not result:
             raise HTTPException(status_code=404, detail="Try-on result not found")
@@ -306,9 +309,11 @@ async def generate_whatsapp_link(tryon_id: str):
         
         return {"whatsapp_url": whatsapp_url, "message": message}
         
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"Error generating WhatsApp link: {e}")
-        raise HTTPException(status_code=500, detail="Error generating WhatsApp link")
+        raise HTTPException(status_code=500, detail="Internal server error")
 
 @api_router.get("/results", response_model=List[TryonResult])
 async def get_all_results():
