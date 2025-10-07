@@ -107,8 +107,10 @@ const CatalogUpload = () => {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: {
+    accept: uploadMode === 'pdf' ? {
       'application/pdf': ['.pdf']
+    } : {
+      'image/*': ['.png', '.jpg', '.jpeg', '.webp']
     },
     multiple: false
   });
