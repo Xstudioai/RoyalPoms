@@ -1,8 +1,8 @@
 {
-  "timestamp": "2025-10-07T20:58:17.911442",
-  "total_tests": 11,
-  "passed_tests": 10,
-  "success_rate": 90.9090909090909,
+  "timestamp": "2025-10-07T21:09:35.855984",
+  "total_tests": 9,
+  "passed_tests": 7,
+  "success_rate": 77.77777777777779,
   "results": [
     {
       "test": "Root API Endpoint",
@@ -14,13 +14,13 @@
       "test": "Get Outfits (Empty)",
       "status": "\u2705 PASSED",
       "success": true,
-      "details": "Status: 200, Outfits count: 5"
+      "details": "Status: 200, Outfits count: 6"
     },
     {
       "test": "Get All Results",
       "status": "\u2705 PASSED",
       "success": true,
-      "details": "Status: 200, Results count: 0"
+      "details": "Status: 200, Results count: 1"
     },
     {
       "test": "Upload Invalid File",
@@ -50,25 +50,13 @@
       "test": "Upload Test Outfit",
       "status": "\u2705 PASSED",
       "success": true,
-      "details": "Status: 200, Outfit ID: b7dd182c-af11-4121-839a-f61393790d4b"
+      "details": "Status: 200, Outfit ID: be606a35-1d82-4eb8-9135-1716f66e07fa"
     },
     {
       "test": "Virtual Try-On Generation",
-      "status": "\u2705 PASSED",
-      "success": true,
-      "details": "Status: 200, Has ID: True, Has Image: True, Has Message: True, Image size: 22021 bytes, Image dimensions: (512, 512)"
-    },
-    {
-      "test": "Watermark Functionality",
-      "status": "\u2705 PASSED",
-      "success": true,
-      "details": "Status: 200, Image size: (512, 512), Mode: RGBA, Watermark check: Image valid (assuming watermark present)"
-    },
-    {
-      "test": "WhatsApp Sharing After Generation",
-      "status": "\u2705 PASSED",
-      "success": true,
-      "details": "Status: 200, Has URL: True, Has Message: True, Valid WhatsApp URL: True"
+      "status": "\u274c FAILED",
+      "success": false,
+      "details": "Status: 500, Error: Failed to generate image: Error code: 401 - {'error': {'message': 'Incorrect API key provided: sk-emerg******************bBeB. You can find your API key at https://platform.openai.com/account/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
     }
   ]
 }
