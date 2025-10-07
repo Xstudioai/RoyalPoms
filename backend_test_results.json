@@ -1,8 +1,8 @@
 {
-  "timestamp": "2025-10-07T20:15:58.753273",
-  "total_tests": 7,
-  "passed_tests": 3,
-  "success_rate": 42.857142857142854,
+  "timestamp": "2025-10-07T20:55:20.463948",
+  "total_tests": 9,
+  "passed_tests": 7,
+  "success_rate": 77.77777777777779,
   "results": [
     {
       "test": "Root API Endpoint",
@@ -14,7 +14,7 @@
       "test": "Get Outfits (Empty)",
       "status": "\u2705 PASSED",
       "success": true,
-      "details": "Status: 200, Outfits count: 0"
+      "details": "Status: 200, Outfits count: 1"
     },
     {
       "test": "Get All Results",
@@ -24,27 +24,39 @@
     },
     {
       "test": "Upload Invalid File",
-      "status": "\u274c FAILED",
-      "success": false,
-      "details": "Status: 500"
+      "status": "\u2705 PASSED",
+      "success": true,
+      "details": "Status: 400 (Correctly rejected non-PDF file)"
     },
     {
       "test": "Try-on Without Outfit",
-      "status": "\u274c FAILED",
-      "success": false,
-      "details": "Status: 500"
+      "status": "\u2705 PASSED",
+      "success": true,
+      "details": "Status: 404 (Correctly rejected non-existent outfit)"
     },
     {
       "test": "WhatsApp Link Invalid ID",
-      "status": "\u274c FAILED",
-      "success": false,
-      "details": "Status: 500"
+      "status": "\u2705 PASSED",
+      "success": true,
+      "details": "Status: 404 (Correctly rejected invalid try-on ID)"
     },
     {
       "test": "CORS Headers",
       "status": "\u274c FAILED",
       "success": false,
       "details": "CORS headers found: []"
+    },
+    {
+      "test": "Upload Test Outfit",
+      "status": "\u2705 PASSED",
+      "success": true,
+      "details": "Status: 200, Outfit ID: 2e0db5b5-1687-4093-9526-6c4831441f16"
+    },
+    {
+      "test": "Virtual Try-On Generation",
+      "status": "\u274c FAILED",
+      "success": false,
+      "details": "Status: 500, Error: Internal server error during image generation"
     }
   ]
 }
