@@ -34,11 +34,14 @@ const TryOnApp = () => {
   };
 
   const onDrop = useCallback((acceptedFiles) => {
+    console.log('Files dropped:', acceptedFiles);
     const file = acceptedFiles[0];
     if (file && file.type.startsWith('image/')) {
+      console.log('Valid image file selected:', file.name, file.type);
       const reader = new FileReader();
       reader.onload = () => {
         const base64 = reader.result.split(',')[1];
+        console.log('Image loaded, setting state and moving to step 2');
         setDogImage({
           file,
           preview: reader.result,
@@ -46,7 +49,14 @@ const TryOnApp = () => {
         });
         setStep(2);
       };
+      reader.onerror = (error) => {
+        console.error('Error reading file:', error);
+        alert('Error al leer el archivo. Por favor intenta de nuevo.');
+      };
       reader.readAsDataURL(file);
+    } else {
+      console.log('Invalid file type or no file selected');
+      alert('Por favor selecciona un archivo de imagen válido (JPG, PNG, WEBP)');
     }
   }, []);
 
