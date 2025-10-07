@@ -301,21 +301,40 @@ async def create_tryon(request: TryonRequest):
         Style: professional pet photography, high-end pet fashion, commercial quality.
         """
         
-        # Generate image using OpenAI Image Generation
+        # Generate image using OpenAI directly
         try:
-            result_images = await image_gen.generate_images(
-                prompt=prompt,
+            response = openai_client.images.generate(
                 model="dall-e-3",
-                number_of_images=1
+                prompt=prompt,
+                size="1024x1024",
+                quality="standard",
+                n=1,
+                response_format="b64_json"
             )
+            
+            if not response.data or len(response.data) == 0:
+                raise HTTPException(status_code=500, detail="No image was generated")
+            
+            # Get the base64 image data
+            result_base64 = response.data[0].b64_json
+            
         except Exception as e:
             logger.error(f"Error with dall-e-3, trying dall-e-2: {e}")
             try:
-                result_images = await image_gen.generate_images(
-                    prompt=prompt,
+                response = openai_client.images.generate(
                     model="dall-e-2",
-                    number_of_images=1
+                    prompt=prompt,
+                    size="1024x1024",
+                    n=1,
+                    response_format="b64_json"
                 )
+                
+                if not response.data or len(response.data) == 0:
+                    raise HTTPException(status_code=500, detail="No image was generated")
+                
+                # Get the base64 image data
+                result_base64 = response.data[0].b64_json
+                
             except Exception as e2:
                 logger.error(f"Error with dall-e-2: {e2}")
                 raise HTTPException(status_code=500, detail=f"Image generation failed: {str(e2)}")
