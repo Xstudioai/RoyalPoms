@@ -117,6 +117,20 @@ def add_watermark_to_image(image_base64: str, logo_base64: str) -> str:
 async def root():
     return {"message": "Gummy Pet Spa Virtual Try-On API"}
 
+# Authentication model
+class AdminCredentials(BaseModel):
+    username: str
+    password: str
+
+@api_router.post("/admin-login")
+async def admin_login(credentials: AdminCredentials):
+    """Authenticate admin user"""
+    # Simple hardcoded credentials - in production use proper authentication
+    if credentials.username == "admin" and credentials.password == "gummypetspa2025":
+        return {"authenticated": True, "message": "Login successful"}
+    else:
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+
 @api_router.post("/upload-catalog")
 async def upload_catalog(file: UploadFile = File(...)):
     """Upload PDF catalog and extract outfit images"""
@@ -162,6 +176,66 @@ async def upload_catalog(file: UploadFile = File(...)):
     except Exception as e:
         logger.error(f"Error processing catalog: {e}")
         raise HTTPException(status_code=500, detail=f"Internal server error processing catalog")
+
+@api_router.post("/upload-outfit-image")
+async def upload_outfit_image(file: UploadFile = File(...), name: str = Form(...)):
+    """Upload individual outfit PNG image"""
+    try:
+        if not file.content_type.startswith('image/'):
+            raise HTTPException(status_code=400, detail="Only image files are allowed")
+        
+        if file.size == 0:
+            raise HTTPException(status_code=400, detail="File is empty")
+        
+        # Read image file
+        image_content = await file.read()
+        
+        if len(image_content) == 0:
+            raise HTTPException(status_code=400, detail="Image file is empty")
+        
+        # Convert to base64
+        image_base64 = base64.b64encode(image_content).decode('utf-8')
+        
+        # Create outfit item
+        outfit = OutfitItem(
+            name=name,
+            image_base64=image_base64
+        )
+        
+        # Save to database
+        await db.outfits.insert_one(outfit.dict())
+        
+        return {"message": "Outfit image uploaded successfully", "outfit_id": outfit.id}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error uploading outfit image: {e}")
+        raise HTTPException(status_code=500, detail=f"Internal server error uploading image")
+
+@api_router.delete("/outfits/{outfit_id}")
+async def delete_outfit(outfit_id: str):
+    """Delete an outfit from the catalog"""
+    try:
+        result = await db.outfits.delete_one({"id": outfit_id})
+        if result.deleted_count == 0:
+            raise HTTPException(status_code=404, detail="Outfit not found")
+        
+        return {"message": "Outfit deleted successfully"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error deleting outfit: {e}")
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+@api_router.delete("/outfits")
+async def clear_all_outfits():
+    """Clear all outfits from catalog"""
+    try:
+        result = await db.outfits.delete_many({})
+        return {"message": f"Deleted {result.deleted_count} outfits from catalog"}
+    except Exception as e:
+        logger.error(f"Error clearing outfits: {e}")
+        raise HTTPException(status_code=500, detail="Internal server error")
 
 @api_router.get("/outfits", response_model=List[OutfitItem])
 async def get_outfits():
