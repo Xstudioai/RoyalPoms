@@ -346,7 +346,7 @@ async def create_tryon(request: TryonRequest):
             
             try:
                 # Create a professional demo display
-                outfit_display_name = outfit_name.replace(/^Outfit \d+ - /, '').replace('.pdf', '')
+                outfit_display_name = outfit_name.replace('Outfit ', '').replace('.pdf', '')
                 
                 # Draw a centered content area
                 content_rect = (100, 150, 924, 874)  # x1, y1, x2, y2
