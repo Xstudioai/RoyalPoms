@@ -375,7 +375,9 @@ const CatalogUpload = () => {
               </div>
             </div>
           )}
-        </div>
+            </div>
+          </div>
+        )}
 
         {/* Quick Actions */}
         <div className="mt-8 text-center">
