@@ -177,14 +177,19 @@ async def get_outfits():
 async def get_outfit_image(outfit_id: str):
     """Get outfit image as base64"""
     try:
+        if not outfit_id:
+            raise HTTPException(status_code=400, detail="Outfit ID is required")
+        
         outfit = await db.outfits.find_one({"id": outfit_id})
         if not outfit:
             raise HTTPException(status_code=404, detail="Outfit not found")
         
         return {"image_base64": outfit["image_base64"]}
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"Error fetching outfit image: {e}")
-        raise HTTPException(status_code=500, detail="Error fetching outfit image")
+        raise HTTPException(status_code=500, detail="Internal server error")
 
 @api_router.post("/tryon")
 async def create_tryon(request: TryonRequest):
