@@ -347,7 +347,7 @@ const TryOnApp = () => {
                 onClick={handleDownload}
                 className="bg-gradient-to-r from-green-500 to-green-600 text-white font-bold py-3 px-6 rounded-full flex items-center justify-center space-x-2 hover:from-green-400 hover:to-green-500 transition-all duration-300"
               >
-                <DownloadIcon className="w-5 h-5" />
+                <ArrowDownTrayIcon className="w-5 h-5" />
                 <span>Descargar Imagen</span>
               </button>
               
