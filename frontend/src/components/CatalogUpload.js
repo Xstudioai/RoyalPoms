@@ -141,16 +141,94 @@ const CatalogUpload = () => {
       </nav>
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-white mb-4">
-            Subir Catálogo de Outfits
-          </h1>
-          <p className="text-xl text-white/70">
-            Sube un archivo PDF con las imágenes de los outfits disponibles
-          </p>
-        </div>
+        {!isAuthenticated ? (
+          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 max-w-md mx-auto">
+            <div className="text-center mb-8">
+              <h1 className="text-3xl font-bold text-white mb-4">
+                Acceso Administrativo
+              </h1>
+              <p className="text-white/70">
+                Ingresa tus credenciales para acceder al panel de administración
+              </p>
+            </div>
+            
+            <form onSubmit={handleLogin} className="space-y-6">
+              <div>
+                <label className="block text-white font-semibold mb-2">Usuario</label>
+                <input
+                  type="text"
+                  value={loginForm.username}
+                  onChange={(e) => setLoginForm({...loginForm, username: e.target.value})}
+                  className="w-full bg-white/10 border border-white/30 rounded-lg px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:border-yellow-400"
+                  placeholder="admin"
+                  required
+                />
+              </div>
+              
+              <div>
+                <label className="block text-white font-semibold mb-2">Contraseña</label>
+                <input
+                  type="password"
+                  value={loginForm.password}
+                  onChange={(e) => setLoginForm({...loginForm, password: e.target.value})}
+                  className="w-full bg-white/10 border border-white/30 rounded-lg px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:border-yellow-400"
+                  placeholder="••••••••"
+                  required
+                />
+              </div>
+              
+              {loginError && (
+                <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-3 text-red-400 text-center">
+                  {loginError}
+                </div>
+              )}
+              
+              <button
+                type="submit"
+                className="w-full bg-gradient-to-r from-yellow-500 to-orange-600 text-black font-bold py-3 px-6 rounded-lg hover:from-yellow-400 hover:to-orange-500 transition-all duration-300"
+              >
+                Iniciar Sesión
+              </button>
+            </form>
+          </div>
+        ) : (
+          <div>
+            <div className="text-center mb-12">
+              <h1 className="text-4xl font-bold text-white mb-4">
+                Panel de Administración
+              </h1>
+              <p className="text-xl text-white/70">
+                Gestiona el catálogo de outfits de Gummy Pet Spa
+              </p>
+            </div>
 
-        <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20">
+            {/* Mode Selection */}
+            <div className="mb-8 flex justify-center">
+              <div className="bg-white/10 backdrop-blur-md rounded-xl p-2 border border-white/20">
+                <button
+                  onClick={() => setUploadMode('pdf')}
+                  className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${
+                    uploadMode === 'pdf'
+                      ? 'bg-yellow-500 text-black'
+                      : 'text-white hover:bg-white/10'
+                  }`}
+                >
+                  Subir PDF (Múltiples)
+                </button>
+                <button
+                  onClick={() => setUploadMode('image')}
+                  className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${
+                    uploadMode === 'image'
+                      ? 'bg-yellow-500 text-black'
+                      : 'text-white hover:bg-white/10'
+                  }`}
+                >
+                  Subir Imagen Individual
+                </button>
+              </div>
+            </div>
+
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20">
           {!loading && !uploadResult && (
             <div>
               <div
