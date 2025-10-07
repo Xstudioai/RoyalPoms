@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
-import { ArrowLeftIcon, ArrowUpTrayIcon } from '@heroicons/react/24/outline';
+import { ArrowLeftIcon, ArrowUpTrayIcon, TrashIcon } from '@heroicons/react/24/outline';
 import axios from 'axios';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
@@ -11,6 +11,11 @@ const CatalogUpload = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [uploadResult, setUploadResult] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loginForm, setLoginForm] = useState({ username: '', password: '' });
+  const [loginError, setLoginError] = useState('');
+  const [uploadMode, setUploadMode] = useState('pdf'); // 'pdf' or 'image'
+  const [imageName, setImageName] = useState('');
 
   const onDrop = useCallback(async (acceptedFiles) => {
     const file = acceptedFiles[0];
