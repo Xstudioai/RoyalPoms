@@ -122,15 +122,18 @@ backend:
 
   - task: "Watermark Logo Functionality"
     implemented: true
-    working: "unknown"
+    working: true
     file: "server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
         - working: "unknown"
         - agent: "main"
         - comment: "Funcionalidad implementada pero sin confirmar si funciona correctamente"
+        - working: true
+        - agent: "testing"
+        - comment: "✅ WORKING: Watermark functionality tested and confirmed working. Logo downloads correctly, resizes to 15% of image width, positions in bottom-right corner, and applies successfully to generated images."
 
 frontend:
   - task: "Virtual Try-On Image Display"
