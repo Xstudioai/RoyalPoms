@@ -195,14 +195,23 @@ async def get_outfit_image(outfit_id: str):
 async def create_tryon(request: TryonRequest):
     """Generate virtual try-on image"""
     try:
+        # Validate input
+        if not request.dog_image_base64:
+            raise HTTPException(status_code=400, detail="Dog image is required")
+        if not request.outfit_id:
+            raise HTTPException(status_code=400, detail="Outfit ID is required")
+        
         # Get outfit from database
         outfit = await db.outfits.find_one({"id": request.outfit_id})
         if not outfit:
             raise HTTPException(status_code=404, detail="Outfit not found")
         
         # Decode base64 images to bytes for OpenAI API
-        dog_image_bytes = base64.b64decode(request.dog_image_base64)
-        outfit_image_bytes = base64.b64decode(outfit["image_base64"])
+        try:
+            dog_image_bytes = base64.b64decode(request.dog_image_base64)
+            outfit_image_bytes = base64.b64decode(outfit["image_base64"])
+        except Exception as e:
+            raise HTTPException(status_code=400, detail="Invalid image data")
         
         # Create prompt for virtual try-on
         prompt = f"""
@@ -249,9 +258,11 @@ async def create_tryon(request: TryonRequest):
             "message": "Virtual try-on completed successfully!"
         }
         
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"Error in virtual try-on: {e}")
-        raise HTTPException(status_code=500, detail=f"Error generating try-on: {str(e)}")
+        raise HTTPException(status_code=500, detail="Internal server error during image generation")
 
 @api_router.get("/tryon/{tryon_id}/base64")
 async def get_tryon_result(tryon_id: str):
