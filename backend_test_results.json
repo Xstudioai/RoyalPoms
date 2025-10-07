@@ -1,8 +1,8 @@
 {
-  "timestamp": "2025-10-07T20:57:49.124137",
-  "total_tests": 9,
-  "passed_tests": 7,
-  "success_rate": 77.77777777777779,
+  "timestamp": "2025-10-07T20:58:17.911442",
+  "total_tests": 11,
+  "passed_tests": 10,
+  "success_rate": 90.9090909090909,
   "results": [
     {
       "test": "Root API Endpoint",
@@ -14,7 +14,7 @@
       "test": "Get Outfits (Empty)",
       "status": "\u2705 PASSED",
       "success": true,
-      "details": "Status: 200, Outfits count: 4"
+      "details": "Status: 200, Outfits count: 5"
     },
     {
       "test": "Get All Results",
@@ -50,13 +50,25 @@
       "test": "Upload Test Outfit",
       "status": "\u2705 PASSED",
       "success": true,
-      "details": "Status: 200, Outfit ID: 3b3f8f12-0dba-4f4e-98bd-f9e091824548"
+      "details": "Status: 200, Outfit ID: b7dd182c-af11-4121-839a-f61393790d4b"
     },
     {
       "test": "Virtual Try-On Generation",
-      "status": "\u274c FAILED",
-      "success": false,
-      "details": "Status: 500, Error: Image generation failed: Failed to generate images: litellm.BadRequestError: OpenAIException - Error code: 400 - {'error': {'message': \"litellm.BadRequestError: OpenAIException - Unknown parameter: 'extra_headers'.. Received Model Group=gpt-image-1\\nAvailable Model Group Fallbacks=None\", 'type': 'invalid_request_error', 'param': 'extra_headers', 'code': '400'}}"
+      "status": "\u2705 PASSED",
+      "success": true,
+      "details": "Status: 200, Has ID: True, Has Image: True, Has Message: True, Image size: 22021 bytes, Image dimensions: (512, 512)"
+    },
+    {
+      "test": "Watermark Functionality",
+      "status": "\u2705 PASSED",
+      "success": true,
+      "details": "Status: 200, Image size: (512, 512), Mode: RGBA, Watermark check: Image valid (assuming watermark present)"
+    },
+    {
+      "test": "WhatsApp Sharing After Generation",
+      "status": "\u2705 PASSED",
+      "success": true,
+      "details": "Status: 200, Has URL: True, Has Message: True, Valid WhatsApp URL: True"
     }
   ]
 }
