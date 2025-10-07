@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-10-07T20:56:23.166888",
+  "timestamp": "2025-10-07T20:57:10.075531",
   "total_tests": 9,
   "passed_tests": 7,
   "success_rate": 77.77777777777779,
@@ -14,7 +14,7 @@
       "test": "Get Outfits (Empty)",
       "status": "\u2705 PASSED",
       "success": true,
-      "details": "Status: 200, Outfits count: 2"
+      "details": "Status: 200, Outfits count: 3"
     },
     {
       "test": "Get All Results",
@@ -50,13 +50,13 @@
       "test": "Upload Test Outfit",
       "status": "\u2705 PASSED",
       "success": true,
-      "details": "Status: 200, Outfit ID: 076b65e1-f325-433a-b828-e50dbf9311d4"
+      "details": "Status: 200, Outfit ID: 35662613-68e4-4459-8988-6f13c896cd52"
     },
     {
       "test": "Virtual Try-On Generation",
       "status": "\u274c FAILED",
       "success": false,
-      "details": "Status: 500, Error: Image generation failed: Failed to generate images: litellm.BadRequestError: OpenAIException - Error code: 400 - {'error': {'message': \"litellm.BadRequestError: OpenAIException - Unknown parameter: 'extra_headers'.. Received Model Group=dall-e-2\\nAvailable Model Group Fallbacks=None\", 'type': 'invalid_request_error', 'param': 'extra_headers', 'code': '400'}}"
+      "details": "Status: 500, Error: Image generation failed: Error code: 401 - {'error': {'message': 'Incorrect API key provided: sk-emerg******************bBeB. You can find your API key at https://platform.openai.com/account/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
     }
   ]
 }
