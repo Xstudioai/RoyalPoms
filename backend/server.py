@@ -287,22 +287,25 @@ async def create_tryon(request: TryonRequest):
         except Exception as e:
             raise HTTPException(status_code=400, detail="Invalid image data")
         
-        # Create prompt for virtual try-on
+        # Get outfit details for better prompt
+        outfit_name = outfit.get("name", "outfit")
+        
+        # Create detailed prompt for virtual try-on effect
         prompt = f"""
-        Create a photorealistic image of a dog wearing the outfit from the reference image. 
-        The dog should look natural and happy wearing the clothing. 
-        Ensure the outfit fits properly on the dog's body and maintains the style and colors from the reference.
-        The background should remain similar to the original dog photo.
-        Make it look professional and appealing for a pet spa business.
+        Create a photorealistic image of a dog wearing a beautiful {outfit_name}. 
+        The dog should be happy and comfortable, showing the complete outfit clearly.
+        The clothing should fit perfectly and look stylish and fashionable.
+        Use a clean, professional background suitable for a pet spa business.
+        Ensure high quality, realistic textures and natural lighting.
+        The dog should look confident and well-groomed wearing this elegant pet outfit.
+        Style: professional pet photography, high-end pet fashion, commercial quality.
         """
         
-        # Generate image using OpenAI Image Edit
-        result_images = await image_gen.edit_images(
-            image=[dog_image_bytes, outfit_image_bytes],
+        # Generate image using OpenAI Image Generation
+        result_images = await image_gen.generate_images(
             prompt=prompt,
             model="gpt-image-1",
-            size="1024x1536",
-            quality="high"
+            number_of_images=1
         )
         
         if not result_images or len(result_images) == 0:
