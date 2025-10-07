@@ -355,8 +355,8 @@ class VirtualTryOnAPITester:
             # Head (circle)
             draw.ellipse([175, 150, 225, 200], fill='brown')
             # Ears
-            draw.ellipse([165, 140, 185, 170], fill='darkbrown')
-            draw.ellipse([215, 140, 235, 170], fill='darkbrown')
+            draw.ellipse([165, 140, 185, 170], fill='#8B4513')
+            draw.ellipse([215, 140, 235, 170], fill='#8B4513')
             # Eyes
             draw.ellipse([185, 160, 195, 170], fill='black')
             draw.ellipse([205, 160, 215, 170], fill='black')
