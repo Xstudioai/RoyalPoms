@@ -411,6 +411,28 @@ class VirtualTryOnAPITester:
         # Test CORS
         self.test_cors_headers()
 
+        print("\n" + "=" * 60)
+        print("🎯 PRIORITY TESTING: Virtual Try-On Functionality")
+        print("=" * 60)
+        
+        # Upload a test outfit for virtual try-on testing
+        outfit_success, outfit_id = self.test_upload_outfit_image()
+        
+        if outfit_success and outfit_id:
+            # Test the complete virtual try-on flow
+            tryon_success, tryon_id = self.test_virtual_tryon_with_real_generation(outfit_id)
+            
+            if tryon_success and tryon_id:
+                # Test watermark functionality
+                self.test_watermark_functionality(tryon_id)
+                
+                # Test WhatsApp sharing after successful generation
+                self.test_whatsapp_sharing_after_generation(tryon_id)
+            else:
+                print("   ⚠️  Skipping watermark and WhatsApp tests due to try-on generation failure")
+        else:
+            print("   ⚠️  Skipping virtual try-on tests due to outfit upload failure")
+
         # Print summary
         print("\n" + "=" * 60)
         print("📊 TEST SUMMARY")
@@ -421,6 +443,17 @@ class VirtualTryOnAPITester:
         print(f"Tests Passed: {self.tests_passed}")
         print(f"Tests Failed: {self.tests_run - self.tests_passed}")
         print(f"Success Rate: {success_rate:.1f}%")
+        
+        # Analyze critical failures
+        critical_failures = []
+        for result in self.test_results:
+            if not result['success'] and any(keyword in result['test'].lower() for keyword in ['virtual try-on', 'generation', 'watermark']):
+                critical_failures.append(result['test'])
+        
+        if critical_failures:
+            print(f"\n🚨 CRITICAL FAILURES DETECTED:")
+            for failure in critical_failures:
+                print(f"   - {failure}")
         
         if self.tests_passed == self.tests_run:
             print("\n🎉 All tests passed! Backend API is working correctly.")
