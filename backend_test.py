@@ -7,7 +7,7 @@ from PIL import Image
 import json
 
 class VirtualTryOnAPITester:
-    def __init__(self, base_url="https://pupfashionapp.preview.emergentagent.com"):
+    def __init__(self, base_url="https://doggie-outfitter.preview.emergentagent.com"):
         self.base_url = base_url
         self.api_url = f"{base_url}/api"
         self.tests_run = 0
