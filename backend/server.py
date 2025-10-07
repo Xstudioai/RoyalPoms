@@ -39,8 +39,8 @@ app = FastAPI()
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
 
-# Initialize OpenAI Image Generation
-image_gen = OpenAIImageGeneration(api_key=os.environ.get('EMERGENT_LLM_KEY'))
+# Initialize OpenAI client
+openai_client = openai.OpenAI(api_key=os.environ.get('EMERGENT_LLM_KEY'))
 
 # Define Models
 class OutfitItem(BaseModel):
