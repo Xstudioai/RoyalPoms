@@ -107,11 +107,11 @@ user_problem_statement: "El usuario reporta que no aparece la imagen final de la
 backend:
   - task: "OpenAI Image Generation Integration"
     implemented: true
-    working: true
+    working: false
     file: "server.py"
-    stuck_count: 0
+    stuck_count: 2
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
         - working: false
         - agent: "user"
@@ -122,6 +122,9 @@ backend:
         - working: true
         - agent: "main"
         - comment: "FIXED: Replaced emergentintegrations library with direct OpenAI API integration using dall-e-3 model. Using Emergent Universal Key through proxy URL. Backend logs show 200 OK responses for /api/tryon endpoint."
+        - working: false
+        - agent: "testing"
+        - comment: "CRITICAL INFRASTRUCTURE ISSUE: Backend cannot connect to api.emergent.rest due to network restrictions. DNS resolution fails with 'Could not resolve host: api.emergent.rest'. OpenAI API calls fail with Connection error after retries. This is a network/infrastructure issue preventing external API access."
 
   - task: "Watermark Logo Functionality"
     implemented: true
