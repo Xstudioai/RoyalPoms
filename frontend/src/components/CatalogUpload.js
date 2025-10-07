@@ -17,40 +17,93 @@ const CatalogUpload = () => {
   const [uploadMode, setUploadMode] = useState('pdf'); // 'pdf' or 'image'
   const [imageName, setImageName] = useState('');
 
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setLoginError('');
+    
+    try {
+      const response = await axios.post(`${API}/admin-login`, loginForm);
+      if (response.data.authenticated) {
+        setIsAuthenticated(true);
+      }
+    } catch (error) {
+      setLoginError('Usuario o contraseña incorrectos');
+    }
+  };
+
+  const handleClearCatalog = async () => {
+    if (window.confirm('¿Estás seguro de que quieres eliminar todos los outfits del catálogo?')) {
+      try {
+        await axios.delete(`${API}/outfits`);
+        setUploadResult({
+          success: true,
+          message: 'Catálogo limpiado exitosamente'
+        });
+      } catch (error) {
+        setUploadResult({
+          success: false,
+          message: 'Error limpiando el catálogo'
+        });
+      }
+    }
+  };
+
   const onDrop = useCallback(async (acceptedFiles) => {
     const file = acceptedFiles[0];
-    if (file && file.type === 'application/pdf') {
-      setLoading(true);
-      setUploadResult(null);
+    setLoading(true);
+    setUploadResult(null);
 
-      try {
-        const formData = new FormData();
-        formData.append('file', file);
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
 
-        const response = await axios.post(`${API}/upload-catalog`, formData, {
+      let response;
+      if (uploadMode === 'pdf' && file.type === 'application/pdf') {
+        response = await axios.post(`${API}/upload-catalog`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
         });
-
         setUploadResult({
           success: true,
           message: response.data.message,
           outfits: response.data.outfits
         });
-      } catch (error) {
-        console.error('Error uploading catalog:', error);
-        setUploadResult({
-          success: false,
-          message: error.response?.data?.detail || 'Error subiendo el catálogo'
+      } else if (uploadMode === 'image' && file.type.startsWith('image/')) {
+        if (!imageName.trim()) {
+          alert('Por favor ingresa un nombre para el outfit');
+          setLoading(false);
+          return;
+        }
+        formData.append('name', imageName.trim());
+        
+        response = await axios.post(`${API}/upload-outfit-image`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
         });
-      } finally {
+        setUploadResult({
+          success: true,
+          message: response.data.message,
+          outfits: 1
+        });
+        setImageName('');
+      } else {
+        const expectedType = uploadMode === 'pdf' ? 'PDF' : 'imagen';
+        alert(`Por favor selecciona un archivo ${expectedType}`);
         setLoading(false);
+        return;
       }
-    } else {
-      alert('Por favor selecciona un archivo PDF');
+    } catch (error) {
+      console.error('Error uploading:', error);
+      setUploadResult({
+        success: false,
+        message: error.response?.data?.detail || 'Error subiendo el archivo'
+      });
+    } finally {
+      setLoading(false);
     }
-  }, []);
+  }, [uploadMode, imageName]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
