@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
-import { ArrowLeftIcon, UploadIcon } from '@heroicons/react/24/outline';
+import { ArrowLeftIcon, ArrowUpTrayIcon } from '@heroicons/react/24/outline';
 import axios from 'axios';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
