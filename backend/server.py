@@ -41,8 +41,8 @@ api_router = APIRouter(prefix="/api")
 
 # Initialize OpenAI client with Emergent Universal Key
 openai_client = openai.AsyncOpenAI(
-    api_key=os.environ.get('EMERGENT_LLM_KEY'),
-    base_url="https://api.emergent.rest/openai/v1"  # Emergent proxy URL
+    api_key=os.environ.get('EMERGENT_LLM_KEY')
+    # Using default OpenAI API endpoint: https://api.openai.com/v1
 )
 
 # Define Models
