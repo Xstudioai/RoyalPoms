@@ -239,56 +239,120 @@ const TryOnApp = () => {
                 </div>
               </div>
 
-              {/* Outfit Selection */}
+              {/* Outfit Selection - Escaparate Style */}
               <div className="lg:col-span-2">
                 {outfits.length === 0 ? (
                   <div className="text-center py-12">
-                    <p className="text-white/70 text-xl">
-                      No hay outfits disponibles. El administrador debe subir el catálogo.
+                    <div className="text-6xl mb-4">👔</div>
+                    <p className="text-white/70 text-xl mb-4">
+                      Escaparate vacío
+                    </p>
+                    <p className="text-white/50">
+                      El administrador debe subir outfits al catálogo para comenzar las pruebas virtuales.
                     </p>
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {outfits.map((outfit) => (
-                      <div
-                        key={outfit.id}
-                        onClick={() => setSelectedOutfit(outfit)}
-                        className={`bg-white/10 backdrop-blur-md rounded-xl p-4 border-2 cursor-pointer transition-all duration-300 hover:scale-105 ${
-                          selectedOutfit?.id === outfit.id
-                            ? 'border-yellow-400 bg-yellow-400/10'
-                            : 'border-white/20 hover:border-yellow-400/50'
-                        }`}
-                      >
-                        <img 
-                          src={`data:image/png;base64,${outfit.image_base64}`}
-                          alt={outfit.name}
-                          className="w-full h-48 object-cover rounded-lg mb-3"
-                        />
-                        <p className="text-white text-center font-semibold">
-                          {outfit.name}
-                        </p>
-                        {selectedOutfit?.id === outfit.id && (
-                          <div className="mt-2 text-center">
-                            <span className="bg-yellow-400 text-black text-sm font-bold py-1 px-3 rounded-full">
-                              ✓ Seleccionado
-                            </span>
+                  <div>
+                    <div className="mb-6">
+                      <h3 className="text-2xl font-bold text-white mb-2">✨ Escaparate de Gummy Pet Spa</h3>
+                      <p className="text-white/70">Selecciona el outfit perfecto para tu mascota ({outfits.length} disponibles)</p>
+                    </div>
+                    
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                      {outfits.map((outfit, index) => (
+                        <div
+                          key={outfit.id}
+                          className="group relative"
+                        >
+                          {/* Escaparate Window */}
+                          <div
+                            onClick={() => setSelectedOutfit(outfit)}
+                            className={`
+                              relative bg-gradient-to-b from-white/20 to-white/10 backdrop-blur-md 
+                              rounded-2xl p-3 border-2 cursor-pointer transition-all duration-500
+                              hover:scale-110 hover:rotate-1 hover:shadow-2xl hover:z-10
+                              ${selectedOutfit?.id === outfit.id
+                                ? 'border-yellow-400 bg-gradient-to-b from-yellow-400/20 to-yellow-400/10 scale-105 shadow-xl'
+                                : 'border-white/30 hover:border-yellow-400/70'
+                              }
+                            `}
+                            style={{
+                              transform: `perspective(1000px) rotateX(${Math.sin(index * 0.5) * 2}deg) rotateY(${Math.cos(index * 0.3) * 2}deg)`,
+                              transformStyle: 'preserve-3d'
+                            }}
+                          >
+                            {/* Window Frame Effect */}
+                            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/10 via-transparent to-black/10 pointer-events-none"></div>
+                            
+                            {/* Glass Reflection */}
+                            <div className="absolute top-2 left-2 right-2 h-1/3 bg-gradient-to-b from-white/20 to-transparent rounded-t-xl pointer-events-none opacity-60"></div>
+                            
+                            {/* Outfit Image */}
+                            <div className="relative overflow-hidden rounded-xl bg-white/5">
+                              <img 
+                                src={`data:image/png;base64,${outfit.image_base64}`}
+                                alt={outfit.name}
+                                className="w-full h-32 sm:h-36 object-cover transition-all duration-500 group-hover:scale-110"
+                              />
+                              
+                              {/* Spotlight Effect */}
+                              <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                            </div>
+                            
+                            {/* Outfit Name Tag */}
+                            <div className="mt-2 px-2">
+                              <p className="text-white text-xs font-semibold text-center truncate group-hover:text-yellow-300 transition-colors duration-300">
+                                {outfit.name.replace(/^Outfit \d+ - /, '').replace('.pdf', '')}
+                              </p>
+                            </div>
+                            
+                            {/* Selection Indicator */}
+                            {selectedOutfit?.id === outfit.id && (
+                              <div className="absolute -top-2 -right-2 bg-yellow-400 text-black text-xs font-bold w-8 h-8 rounded-full flex items-center justify-center animate-pulse shadow-lg">
+                                ✓
+                              </div>
+                            )}
+                            
+                            {/* Hover Preview Badge */}
+                            <div className="absolute top-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                              Vista Previa
+                            </div>
                           </div>
-                        )}
+                          
+                          {/* Display Number */}
+                          <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-white/10 text-white/60 text-xs px-2 py-1 rounded-full font-mono">
+                            #{index + 1}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    
+                    {/* Selection Info */}
+                    {selectedOutfit && (
+                      <div className="mt-8 bg-yellow-400/10 backdrop-blur-md rounded-xl p-6 border border-yellow-400/30">
+                        <div className="flex items-center justify-between mb-4">
+                          <div>
+                            <h4 className="text-yellow-400 font-bold text-lg">Outfit Seleccionado</h4>
+                            <p className="text-white/80">{selectedOutfit.name.replace(/^Outfit \d+ - /, '').replace('.pdf', '')}</p>
+                          </div>
+                          <div className="w-16 h-16 rounded-lg overflow-hidden border-2 border-yellow-400/50">
+                            <img 
+                              src={`data:image/png;base64,${selectedOutfit.image_base64}`}
+                              alt="Preview"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                        </div>
+                        
+                        <button
+                          onClick={handleTryOn}
+                          disabled={loading}
+                          className="w-full bg-gradient-to-r from-yellow-500 to-orange-600 text-black font-bold py-4 px-8 rounded-xl text-lg hover:from-yellow-400 hover:to-orange-500 transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
+                        >
+                          ✨ ¡Crear Prueba Virtual! ✨
+                        </button>
                       </div>
-                    ))}
-                  </div>
-                )}
-
-                {/* Action Buttons */}
-                {selectedOutfit && (
-                  <div className="text-center mt-8">
-                    <button
-                      onClick={handleTryOn}
-                      disabled={loading}
-                      className="bg-gradient-to-r from-yellow-500 to-orange-600 text-black font-bold py-4 px-8 rounded-full text-lg hover:from-yellow-400 hover:to-orange-500 transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      ¡Generar Imagen!
-                    </button>
+                    )}
                   </div>
                 )}
               </div>
