@@ -172,7 +172,6 @@ test_plan:
     - "Virtual Try-On Image Display"
   stuck_tasks:
     - "OpenAI Image Generation Integration"
-    - "Virtual Try-On Image Display"
   test_all: false
   test_priority: "stuck_first"
 
