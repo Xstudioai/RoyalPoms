@@ -125,6 +125,9 @@ backend:
         - working: false
         - agent: "testing"
         - comment: "CRITICAL INFRASTRUCTURE ISSUE: Backend cannot connect to api.emergent.rest due to network restrictions. DNS resolution fails with 'Could not resolve host: api.emergent.rest'. OpenAI API calls fail with Connection error after retries. This is a network/infrastructure issue preventing external API access."
+        - working: false
+        - agent: "testing"
+        - comment: "CRITICAL API KEY ISSUE: Direct OpenAI API integration fails with 401 Unauthorized. Error: 'Incorrect API key provided: sk-emerg******************bBeB'. The Emergent Universal Key is not accepted by the direct OpenAI API endpoint (api.openai.com). Backend logs show HTTP 401 responses. This confirms the API key is incompatible with direct OpenAI API access."
 
   - task: "Watermark Logo Functionality"
     implemented: true
