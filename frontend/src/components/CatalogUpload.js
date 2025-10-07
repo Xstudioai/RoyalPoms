@@ -231,6 +231,20 @@ const CatalogUpload = () => {
             <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20">
           {!loading && !uploadResult && (
             <div>
+              {uploadMode === 'image' && (
+                <div className="mb-6">
+                  <label className="block text-white font-semibold mb-2">Nombre del Outfit</label>
+                  <input
+                    type="text"
+                    value={imageName}
+                    onChange={(e) => setImageName(e.target.value)}
+                    className="w-full bg-white/10 border border-white/30 rounded-lg px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:border-yellow-400"
+                    placeholder="Ej: Abrigo de Invierno Elegante"
+                    maxLength={50}
+                  />
+                </div>
+              )}
+              
               <div
                 {...getRootProps()}
                 className={`border-2 border-dashed rounded-2xl p-12 text-center cursor-pointer transition-all duration-300 ${
@@ -242,27 +256,57 @@ const CatalogUpload = () => {
                 <input {...getInputProps()} />
                 <ArrowUpTrayIcon className="w-16 h-16 text-white/70 mx-auto mb-6" />
                 {isDragActive ? (
-                  <p className="text-xl text-yellow-400">¡Suelta el archivo PDF aquí!</p>
+                  <p className="text-xl text-yellow-400">
+                    ¡Suelta el archivo {uploadMode === 'pdf' ? 'PDF' : 'de imagen'} aquí!
+                  </p>
                 ) : (
                   <div>
                     <p className="text-xl text-white mb-4">
-                      Arrastra un archivo PDF aquí o <span className="text-yellow-400 underline">haz clic para seleccionar</span>
+                      Arrastra un archivo {uploadMode === 'pdf' ? 'PDF' : 'de imagen'} aquí o{' '}
+                      <span className="text-yellow-400 underline">haz clic para seleccionar</span>
                     </p>
                     <p className="text-white/60">
-                      El sistema extraerá automáticamente las imágenes de cada página
+                      {uploadMode === 'pdf' 
+                        ? 'El sistema extraerá automáticamente las imágenes de cada página'
+                        : 'Formatos: PNG, JPG, JPEG, WEBP'
+                      }
                     </p>
                   </div>
                 )}
               </div>
               
               <div className="mt-8 bg-blue-400/10 rounded-xl p-6 border border-blue-400/30">
-                <h3 className="text-blue-400 font-semibold mb-2">Instrucciones:</h3>
+                <h3 className="text-blue-400 font-semibold mb-2">
+                  {uploadMode === 'pdf' ? 'Instrucciones PDF:' : 'Instrucciones Imagen:'}
+                </h3>
                 <ul className="text-white/70 space-y-2">
-                  <li>• Cada página del PDF debe contener una imagen de outfit</li>
-                  <li>• Las imágenes deben ser claras y de buena calidad</li>
-                  <li>• Se recomienda usar fondos blancos o transparentes</li>
-                  <li>• El sistema procesará automáticamente cada página como un outfit separado</li>
+                  {uploadMode === 'pdf' ? (
+                    <>
+                      <li>• Cada página del PDF debe contener una imagen de outfit</li>
+                      <li>• Las imágenes deben ser claras y de buena calidad</li>
+                      <li>• Se recomienda usar fondos blancos o transparentes</li>
+                      <li>• El sistema procesará automáticamente cada página como un outfit separado</li>
+                    </>
+                  ) : (
+                    <>
+                      <li>• Usa imágenes de alta calidad (PNG recomendado)</li>
+                      <li>• Fondo transparente o blanco para mejores resultados</li>
+                      <li>• Tamaño recomendado: 1024x1024 píxeles</li>
+                      <li>• Nombra cada outfit de forma descriptiva</li>
+                    </>
+                  )}
                 </ul>
+              </div>
+              
+              {/* Clear Catalog Button */}
+              <div className="mt-8 pt-6 border-t border-white/20">
+                <button
+                  onClick={handleClearCatalog}
+                  className="bg-red-500/20 hover:bg-red-500/30 border border-red-500/50 text-red-400 font-semibold py-3 px-6 rounded-lg transition-all duration-300 flex items-center space-x-2"
+                >
+                  <TrashIcon className="w-5 h-5" />
+                  <span>Limpiar Todo el Catálogo</span>
+                </button>
               </div>
             </div>
           )}
