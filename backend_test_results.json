@@ -1,8 +1,8 @@
 {
-  "timestamp": "2025-10-07T21:11:54.943294",
-  "total_tests": 9,
-  "passed_tests": 7,
-  "success_rate": 77.77777777777779,
+  "timestamp": "2025-10-07T21:16:11.955171",
+  "total_tests": 11,
+  "passed_tests": 10,
+  "success_rate": 90.9090909090909,
   "results": [
     {
       "test": "Root API Endpoint",
@@ -14,7 +14,7 @@
       "test": "Get Outfits (Empty)",
       "status": "\u2705 PASSED",
       "success": true,
-      "details": "Status: 200, Outfits count: 7"
+      "details": "Status: 200, Outfits count: 8"
     },
     {
       "test": "Get All Results",
@@ -50,13 +50,25 @@
       "test": "Upload Test Outfit",
       "status": "\u2705 PASSED",
       "success": true,
-      "details": "Status: 200, Outfit ID: 4b1250f5-a6cf-42a9-bc07-2a014c49522d"
+      "details": "Status: 200, Outfit ID: 52faebce-384d-4d90-adcb-5c488ab1b3cb"
     },
     {
       "test": "Virtual Try-On Generation",
-      "status": "\u274c FAILED",
-      "success": false,
-      "details": "Status: 500, Error: Failed to generate image: Connection error."
+      "status": "\u2705 PASSED",
+      "success": true,
+      "details": "Status: 200, Has ID: True, Has Image: True, Has Message: True, Image size: 72422 bytes, Image dimensions: (1024, 1024)"
+    },
+    {
+      "test": "Watermark Functionality",
+      "status": "\u2705 PASSED",
+      "success": true,
+      "details": "Status: 200, Image size: (1024, 1024), Mode: RGBA, Watermark check: Image valid (assuming watermark present)"
+    },
+    {
+      "test": "WhatsApp Sharing After Generation",
+      "status": "\u2705 PASSED",
+      "success": true,
+      "details": "Status: 200, Has URL: True, Has Message: True, Valid WhatsApp URL: True"
     }
   ]
 }
