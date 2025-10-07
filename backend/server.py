@@ -339,12 +339,6 @@ async def create_tryon(request: TryonRequest):
                 logger.error(f"Error with dall-e-2: {e2}")
                 raise HTTPException(status_code=500, detail=f"Image generation failed: {str(e2)}")
         
-        if not result_images or len(result_images) == 0:
-            raise HTTPException(status_code=500, detail="No image was generated")
-        
-        # Convert result to base64
-        result_base64 = base64.b64encode(result_images[0]).decode('utf-8')
-        
         # Download and add watermark
         logo_base64 = await download_logo()
         if logo_base64:
