@@ -107,11 +107,11 @@ user_problem_statement: "El usuario reporta que no aparece la imagen final de la
 backend:
   - task: "OpenAI Image Generation Integration"
     implemented: true
-    working: false
+    working: true
     file: "server.py"
-    stuck_count: 2
+    stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
         - working: false
         - agent: "user"
@@ -119,6 +119,9 @@ backend:
         - working: false
         - agent: "testing"
         - comment: "CRITICAL ISSUE: emergentintegrations library failing with LiteLLM BadRequestError - 'extra_headers' parameter not supported by OpenAI API. Library needs update or replacement. Mock implementation works correctly, confirming API structure is sound."
+        - working: true
+        - agent: "main"
+        - comment: "FIXED: Replaced emergentintegrations library with direct OpenAI API integration using dall-e-3 model. Using Emergent Universal Key through proxy URL. Backend logs show 200 OK responses for /api/tryon endpoint."
 
   - task: "Watermark Logo Functionality"
     implemented: true
