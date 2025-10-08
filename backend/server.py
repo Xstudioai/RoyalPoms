@@ -276,11 +276,22 @@ async def create_tryon(request: TryonRequest):
         # Validate input
         if not request.dog_image_base64:
             raise HTTPException(status_code=400, detail="Dog image is required")
-        if not request.outfit_id:
-            raise HTTPException(status_code=400, detail="Outfit ID is required")
+        
+        if not request.outfit_id and not request.outfit_number:
+            raise HTTPException(status_code=400, detail="Either outfit_id or outfit_number is required")
         
         # Get outfit from database
-        outfit = await db.outfits.find_one({"id": request.outfit_id})
+        if request.outfit_id:
+            # Use outfit_id (existing method)
+            outfit = await db.outfits.find_one({"id": request.outfit_id})
+        else:
+            # Use outfit_number (new static catalog method)
+            # Get all outfits and select by position/number
+            all_outfits = await db.outfits.find().to_list(length=None)
+            if request.outfit_number <= 0 or request.outfit_number > len(all_outfits):
+                raise HTTPException(status_code=404, detail=f"Outfit number {request.outfit_number} not found")
+            outfit = all_outfits[request.outfit_number - 1]  # Convert to 0-based index
+        
         if not outfit:
             raise HTTPException(status_code=404, detail="Outfit not found")
         
