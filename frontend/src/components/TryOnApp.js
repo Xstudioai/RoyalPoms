@@ -107,9 +107,20 @@ const TryOnApp = () => {
         customer_name: customerName || null
       });
 
-      setResultImage(`data:image/png;base64,${response.data.result_image_base64}`);
+      console.log('API Response:', {
+        hasResultImage: !!response.data.result_image_base64,
+        resultImageLength: response.data.result_image_base64?.length || 0,
+        id: response.data.id
+      });
+      
+      const imageData = `data:image/png;base64,${response.data.result_image_base64}`;
+      console.log('Setting result image:', imageData.substring(0, 100) + '...');
+      
+      setResultImage(imageData);
       setCurrentTryonId(response.data.id);
       setStep(4);
+      
+      console.log('State updated - should show Step 4 now');
     } catch (error) {
       console.error('Error in try-on:', error);
       alert('Error generando la imagen. Por favor intenta de nuevo.');
