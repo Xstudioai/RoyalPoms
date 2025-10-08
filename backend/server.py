@@ -416,6 +416,7 @@ async def create_tryon(request: TryonRequest):
         tryon_result = TryonResult(
             dog_image_base64=request.dog_image_base64,
             outfit_id=request.outfit_id,
+            outfit_number=request.outfit_number,
             result_image_base64=result_base64,
             customer_name=request.customer_name
         )
