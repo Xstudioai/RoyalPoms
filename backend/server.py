@@ -61,7 +61,8 @@ class TryonRequest(BaseModel):
 class TryonResult(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     dog_image_base64: str
-    outfit_id: str
+    outfit_id: Optional[str] = None  # For backward compatibility
+    outfit_number: Optional[int] = None  # For static catalog
     result_image_base64: str
     customer_name: Optional[str] = None
     whatsapp_shared: bool = False
