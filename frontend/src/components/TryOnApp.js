@@ -390,9 +390,24 @@ const TryOnApp = () => {
             {/* Step 4: Always show if step is 4 */}
             {step === 4 && (
               <div className="text-center">
-                {console.log('Rendering Step 4 with resultImage:', resultImage?.substring(0, 50) + '...')}
+                {console.log('🔍 DEBUG Step 4 - State:', { 
+                  step, 
+                  hasResultImage: !!resultImage, 
+                  resultImageLength: resultImage?.length,
+                  hasDogImage: !!dogImage
+                })}
+                
+                {!resultImage && (
+                  <div className="mb-8 p-4 bg-red-500/20 border border-red-500 rounded-lg">
+                    <h2 className="text-xl text-red-300 mb-2">⚠️ DEBUG: Sin imagen resultado</h2>
+                    <p className="text-white text-sm">Step: {step}</p>
+                    <p className="text-white text-sm">ResultImage: {resultImage ? 'EXISTS' : 'NULL'}</p>
+                    <p className="text-white text-sm">Length: {resultImage?.length || 0}</p>
+                  </div>
+                )}
+                
                 <h1 className="text-4xl font-bold text-white mb-8">
-                  ¡Increíble resultado! 🎉
+                  {resultImage ? '¡Increíble resultado! 🎉' : '⏳ Procesando resultado...'}
                 </h1>
                 
                 <div className="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
