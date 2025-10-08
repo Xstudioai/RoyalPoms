@@ -24,37 +24,22 @@ const TryOnApp = () => {
     createStaticOutfits();
   }, []);
 
-  const loadOutfits = async () => {
-    try {
-      console.log('Loading outfits from:', `${API}/outfits`);
-      console.log('BACKEND_URL:', BACKEND_URL);
-      
-      const response = await fetch(`${API}/outfits`);
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-      }
-      
-      const data = await response.json();
-      console.log('Outfits loaded successfully:', data.length, 'items');
-      setOutfits(data);
-    } catch (error) {
-      console.error('Error loading outfits:', error);
-      console.log('API URL being used:', `${API}/outfits`);
-      console.log('Full error details:', error.message);
-      
-      // Fallback: try with hardcoded URL
-      try {
-        console.log('Trying fallback URL...');
-        const fallbackResponse = await fetch('https://doggie-outfitter.preview.emergentagent.com/api/outfits');
-        if (fallbackResponse.ok) {
-          const fallbackData = await fallbackResponse.json();
-          console.log('Fallback successful:', fallbackData.length, 'outfits loaded');
-          setOutfits(fallbackData);
-        }
-      } catch (fallbackError) {
-        console.error('Fallback also failed:', fallbackError);
-      }
+  const createStaticOutfits = () => {
+    console.log('Creating static catalog with local images...');
+    
+    // Create static catalog with 55 outfits (1.jpg to 55.jpg)
+    const staticOutfits = [];
+    for (let i = 1; i <= 55; i++) {
+      staticOutfits.push({
+        id: `outfit-${i}`,
+        name: `Outfit ${i}`,
+        image_url: `/outfits/${i}.jpg`,
+        number: i
+      });
     }
+    
+    console.log('Static catalog created:', staticOutfits.length, 'outfits');
+    setOutfits(staticOutfits);
   };
 
   const handleOutfitSelect = (outfit) => {
