@@ -207,11 +207,14 @@ const TryOnApp = () => {
               <div className="text-center py-12">
                 <div className="text-6xl mb-4">👔</div>
                 <p className="text-white/70 text-xl mb-4">
-                  Catálogo en preparación
+                  Cargando catálogo...
                 </p>
                 <p className="text-white/50">
-                  Estamos preparando nuestros hermosos outfits para tu mascota.
+                  {outfits.length === 0 ? 'Conectando con el servidor...' : `${outfits.length} outfits cargados`}
                 </p>
+                <div className="mt-4 text-xs text-white/30">
+                  API: {BACKEND_URL}
+                </div>
               </div>
             ) : (
               <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-10 gap-3 md:gap-4">
