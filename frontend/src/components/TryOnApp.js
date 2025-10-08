@@ -107,20 +107,31 @@ const TryOnApp = () => {
         customer_name: customerName || null
       });
 
-      console.log('API Response:', {
+      console.log('API Response received:', {
         hasResultImage: !!response.data.result_image_base64,
         resultImageLength: response.data.result_image_base64?.length || 0,
         id: response.data.id
       });
       
+      if (!response.data.result_image_base64) {
+        console.error('❌ No result_image_base64 in response!');
+        alert('Error: No se recibió imagen del servidor');
+        setStep(2);
+        return;
+      }
+      
       const imageData = `data:image/png;base64,${response.data.result_image_base64}`;
-      console.log('Setting result image:', imageData.substring(0, 100) + '...');
+      console.log('✅ Setting result image. Length:', imageData.length);
       
-      setResultImage(imageData);
+      // Update state in sequence to ensure proper rendering
       setCurrentTryonId(response.data.id);
-      setStep(4);
+      setResultImage(imageData);
       
-      console.log('State updated - should show Step 4 now');
+      // Small delay to ensure state is set before moving to step 4
+      setTimeout(() => {
+        setStep(4);
+        console.log('✅ Moved to Step 4. ResultImage set:', !!imageData);
+      }, 100);
     } catch (error) {
       console.error('Error in try-on:', error);
       alert('Error generando la imagen. Por favor intenta de nuevo.');
