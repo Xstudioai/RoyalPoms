@@ -376,6 +376,16 @@ const TryOnApp = () => {
               </div>
             )}
 
+            {/* Step 4: Result - Debug Info */}
+            {step === 4 && !resultImage && (
+              <div className="text-center py-20">
+                <h1 className="text-2xl text-red-400 mb-4">Debug: Step 4 pero sin resultImage</h1>
+                <p className="text-white">Step: {step}</p>
+                <p className="text-white">ResultImage: {resultImage ? 'Exists' : 'NULL'}</p>
+                <p className="text-white">ResultImage length: {resultImage?.length || 0}</p>
+              </div>
+            )}
+
             {/* Step 4: Result */}
             {step === 4 && resultImage && (
               <div className="text-center">
