@@ -379,6 +379,7 @@ const TryOnApp = () => {
             {/* Step 4: Result */}
             {step === 4 && resultImage && (
               <div className="text-center">
+                {console.log('Rendering Step 4 with resultImage:', resultImage?.substring(0, 50) + '...')}
                 <h1 className="text-4xl font-bold text-white mb-8">
                   ¡Increíble resultado! 🎉
                 </h1>
