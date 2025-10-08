@@ -124,14 +124,23 @@ const TryOnApp = () => {
       console.log('✅ Setting result image. Length:', imageData.length);
       
       // Update state in sequence to ensure proper rendering
+      console.log('🔄 Setting currentTryonId:', response.data.id);
       setCurrentTryonId(response.data.id);
+      
+      console.log('🔄 Setting resultImage. Length:', imageData.length);
       setResultImage(imageData);
       
-      // Small delay to ensure state is set before moving to step 4
+      console.log('🔄 Setting step to 4');
+      setStep(4);
+      
+      // Verify state update after a short delay
       setTimeout(() => {
-        setStep(4);
-        console.log('✅ Moved to Step 4. ResultImage set:', !!imageData);
-      }, 100);
+        console.log('🔍 State check after update:', {
+          currentStep: step,
+          hasResultImage: !!resultImage,
+          resultImageStartsWith: resultImage?.substring(0, 30)
+        });
+      }, 500);
     } catch (error) {
       console.error('Error in try-on:', error);
       alert('Error generando la imagen. Por favor intenta de nuevo.');
