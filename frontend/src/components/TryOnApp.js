@@ -419,11 +419,22 @@ const TryOnApp = () => {
                   {/* Result */}
                   <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
                     <h3 className="text-xl font-bold text-white mb-4">¡Después!</h3>
-                    <img 
-                      src={resultImage} 
-                      alt="Resultado" 
-                      className="w-full rounded-xl"
-                    />
+                    {resultImage ? (
+                      <img 
+                        src={resultImage} 
+                        alt="Resultado" 
+                        className="w-full rounded-xl"
+                        onLoad={() => console.log('✅ Result image loaded successfully')}
+                        onError={(e) => {
+                          console.error('❌ Error loading result image:', e);
+                          console.log('Image src:', resultImage?.substring(0, 100));
+                        }}
+                      />
+                    ) : (
+                      <div className="aspect-square bg-gray-400 rounded-xl flex items-center justify-center">
+                        <p className="text-white">No image</p>
+                      </div>
+                    )}
                   </div>
                 </div>
                 
