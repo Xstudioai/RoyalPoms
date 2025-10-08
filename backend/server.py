@@ -54,7 +54,8 @@ class OutfitItem(BaseModel):
 
 class TryonRequest(BaseModel):
     dog_image_base64: str
-    outfit_id: str
+    outfit_id: Optional[str] = None  # For backward compatibility
+    outfit_number: Optional[int] = None  # For static catalog
     customer_name: Optional[str] = None
 
 class TryonResult(BaseModel):
