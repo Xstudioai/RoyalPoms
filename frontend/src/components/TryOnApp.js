@@ -27,14 +27,33 @@ const TryOnApp = () => {
   const loadOutfits = async () => {
     try {
       console.log('Loading outfits from:', `${API}/outfits`);
-      const response = await axios.get(`${API}/outfits`);
-      console.log('Outfits loaded:', response.data.length, 'items');
-      setOutfits(response.data);
+      console.log('BACKEND_URL:', BACKEND_URL);
+      
+      const response = await fetch(`${API}/outfits`);
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
+      const data = await response.json();
+      console.log('Outfits loaded successfully:', data.length, 'items');
+      setOutfits(data);
     } catch (error) {
       console.error('Error loading outfits:', error);
       console.log('API URL being used:', `${API}/outfits`);
-      console.log('BACKEND_URL:', BACKEND_URL);
-      // Don't show alert to user, just log the error
+      console.log('Full error details:', error.message);
+      
+      // Fallback: try with hardcoded URL
+      try {
+        console.log('Trying fallback URL...');
+        const fallbackResponse = await fetch('https://doggie-outfitter.preview.emergentagent.com/api/outfits');
+        if (fallbackResponse.ok) {
+          const fallbackData = await fallbackResponse.json();
+          console.log('Fallback successful:', fallbackData.length, 'outfits loaded');
+          setOutfits(fallbackData);
+        }
+      } catch (fallbackError) {
+        console.error('Fallback also failed:', fallbackError);
+      }
     }
   };
 
