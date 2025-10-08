@@ -44,11 +44,17 @@ app = FastAPI()
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
 
-# Initialize OpenAI client with Emergent Universal Key
-openai_client = openai.AsyncOpenAI(
-    api_key=os.environ.get('EMERGENT_LLM_KEY'),
-    base_url="https://api.emergent.rest"
-)
+# Initialize Gemini client with Emergent Universal Key for image generation
+EMERGENT_LLM_KEY = os.environ.get('EMERGENT_LLM_KEY')
+
+def create_gemini_chat():
+    """Create a new Gemini chat instance for image generation"""
+    chat = LlmChat(
+        api_key=EMERGENT_LLM_KEY,
+        session_id=f"tryon_{uuid.uuid4()}",
+        system_message="You are a professional pet stylist AI that creates realistic virtual try-on images for dog outfits."
+    )
+    return chat.with_model("gemini", "gemini-2.5-flash-image-preview").with_params(modalities=["image", "text"])
 
 # Define Models
 class OutfitItem(BaseModel):
