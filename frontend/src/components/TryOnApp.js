@@ -286,7 +286,7 @@ const TryOnApp = () => {
                       <div className="flex items-center justify-center space-x-4">
                         <div className="w-16 h-16 rounded-lg overflow-hidden border-2 border-yellow-400/50">
                           <img 
-                            src={`data:image/png;base64,${selectedOutfit.image_base64}`}
+                            src={selectedOutfit.image_url}
                             alt="Selected outfit"
                             className="w-full h-full object-cover"
                           />
