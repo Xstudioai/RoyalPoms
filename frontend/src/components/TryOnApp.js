@@ -99,9 +99,11 @@ const TryOnApp = () => {
       setTimeout(() => setLoadingMessage('Ajustando el outfit perfectamente...'), 3000);
       setTimeout(() => setLoadingMessage('Creando la imagen final...'), 5000);
 
+      // For static catalog, we'll use the outfit number to find the corresponding outfit in the backend
+      // First, try to find the outfit in the backend by position/number
       const response = await axios.post(`${API}/tryon`, {
         dog_image_base64: imageBase64,
-        outfit_id: selectedOutfit.id,
+        outfit_number: selectedOutfit.number, // Send the outfit number instead of ID
         customer_name: customerName || null
       });
 
