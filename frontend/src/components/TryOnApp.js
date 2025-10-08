@@ -26,11 +26,15 @@ const TryOnApp = () => {
 
   const loadOutfits = async () => {
     try {
+      console.log('Loading outfits from:', `${API}/outfits`);
       const response = await axios.get(`${API}/outfits`);
+      console.log('Outfits loaded:', response.data.length, 'items');
       setOutfits(response.data);
     } catch (error) {
       console.error('Error loading outfits:', error);
-      alert('Error cargando el catálogo de outfits');
+      console.log('API URL being used:', `${API}/outfits`);
+      console.log('BACKEND_URL:', BACKEND_URL);
+      // Don't show alert to user, just log the error
     }
   };
 
