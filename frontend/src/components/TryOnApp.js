@@ -233,9 +233,13 @@ const TryOnApp = () => {
                       {/* Outfit Image */}
                       <div className="aspect-square overflow-hidden rounded-lg mb-2">
                         <img 
-                          src={`data:image/png;base64,${outfit.image_base64}`}
+                          src={outfit.image_url}
                           alt={outfit.name}
                           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                          onError={(e) => {
+                            console.log('Error loading image:', outfit.image_url);
+                            e.target.style.display = 'none';
+                          }}
                         />
                       </div>
                       
