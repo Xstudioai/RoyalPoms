@@ -21,7 +21,7 @@ const TryOnApp = () => {
   const [loadingMessage, setLoadingMessage] = useState('');
 
   useEffect(() => {
-    loadOutfits();
+    createStaticOutfits();
   }, []);
 
   const loadOutfits = async () => {
